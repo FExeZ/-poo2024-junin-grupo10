@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 
 public abstract class User {
     @Id
@@ -15,8 +16,10 @@ public abstract class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "username", nullable = false)
     private String username;
 
+    @Column (name = "password", nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "user") // Aquí está el lado no dueño de la relación

@@ -4,8 +4,6 @@ import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Table(name = "songs")
 @Data
@@ -15,12 +13,14 @@ public class Song {
     @Column (name="song_id")
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Enumerated (EnumType.STRING)
+    @Column (name = "genre", nullable = false)
     private Genre genre;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "music_artist_user_id") //nombre de la columna en la tabla
     private MusicArtistUser musicArtistUser;
 }

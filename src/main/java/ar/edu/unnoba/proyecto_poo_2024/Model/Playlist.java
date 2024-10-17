@@ -14,6 +14,7 @@ public class Playlist {
     @Column(name="playlist_id")
     private Long id;
 
+    @Column (name = "name", nullable = false)
     private String name;
 
     @ManyToOne
