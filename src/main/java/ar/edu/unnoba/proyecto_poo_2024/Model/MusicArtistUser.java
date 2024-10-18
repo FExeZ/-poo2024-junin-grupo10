@@ -1,9 +1,6 @@
 package ar.edu.unnoba.proyecto_poo_2024.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +15,8 @@ public class MusicArtistUser extends User {
     @Column (name = "artistic_name", nullable = true)
     private String artisticName;
 
-    @OneToMany(mappedBy = "musicArtistUser")
+    @OneToMany(mappedBy = "musicArtistUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //pienso cascade all para que no queden canciones huerfanas
     private List<Song> songs;
 
     public Boolean canCreateSongs(){
