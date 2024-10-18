@@ -5,12 +5,14 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
 @Entity
 @DiscriminatorValue("AS")
+@EqualsAndHashCode(callSuper = false)
 public class MusicArtistUser extends User {
 
     @Column (name = "artistic_name", nullable = true)
