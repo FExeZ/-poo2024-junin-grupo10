@@ -22,6 +22,6 @@ public class MusicArtistUser extends User {
     private List<Song> songs;
 
     public Boolean canCreateSongs(){
-        return null;
+        return true;
     }
 }
