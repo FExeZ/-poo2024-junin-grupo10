@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@DiscriminatorValue("AS")
+@DiscriminatorValue("AU")
 @EqualsAndHashCode(callSuper = false)
 public class MusicArtistUser extends User {
 

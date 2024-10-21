@@ -20,7 +20,7 @@ public class Song {
     @Column (name = "genre", nullable = false)
     private Genre genre;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)    //dsp modificar, enrealidad esta como false el optional
     @JoinColumn(name = "music_artist_user_id") //nombre de la columna en la tabla
     private MusicArtistUser musicArtistUser;
 }
