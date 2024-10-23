@@ -19,13 +19,12 @@ public abstract class User {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column (name = "password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Aquí está el lado no dueño de la relación
-    // el cascade es para que por ejemplo cuando se borre un user entonces se borren las playlists asociadas
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Aquí está el lado no dueño de la
+                                                                                     // relación
+    // el cascade es para que por ejemplo cuando se borre un user entonces se borren
+    // las playlists asociadas
     private List<Playlist> playlists;
-    public abstract Boolean canCreateSongs();
 }
-
-

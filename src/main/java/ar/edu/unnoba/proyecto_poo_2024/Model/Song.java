@@ -9,18 +9,20 @@ import lombok.Data;
 @Data
 public class Song {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (name="song_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "song_id")
     private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Enumerated (EnumType.STRING)
-    @Column (name = "genre", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genre", nullable = false)
     private Genre genre;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)    //dsp modificar, enrealidad esta como false el optional
-    @JoinColumn(name = "music_artist_user_id") //nombre de la columna en la tabla
+    @ManyToOne(optional = true, fetch = FetchType.LAZY) // dsp modificar, enrealidad esta como false el optional
+    @JoinColumn(name = "music_artist_user_id", foreignKey = @ForeignKey(name = "fk_artist_user_id")) // nombre de la
+                                                                                                     // columna en la
+                                                                                                     // tabla
     private MusicArtistUser musicArtistUser;
 }
