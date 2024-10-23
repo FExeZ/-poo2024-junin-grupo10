@@ -1,7 +1,9 @@
 package ar.edu.unnoba.proyecto_poo_2024;
 
+import ar.edu.unnoba.proyecto_poo_2024.Util.PasswordEncoder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class ProyectoPoo2024Application {
@@ -10,4 +12,8 @@ public class ProyectoPoo2024Application {
 		SpringApplication.run(ProyectoPoo2024Application.class, args);
 	}
 
+	@Bean
+	public PasswordEncoder passwordEncoder(){
+		return new PasswordEncoder();
+	}
 }
