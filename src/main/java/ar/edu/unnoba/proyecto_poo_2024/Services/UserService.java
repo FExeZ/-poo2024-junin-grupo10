@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public interface UserService {
-
     List<User> getUsers();
+
+    void deleteUser(Long userId);
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -18,4 +20,17 @@ public class UserServiceImp implements UserService {
     public List<User> getUsers() {
         return userRepository.findAll();
     }
+
+    @Override
+    public void deleteUser(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            userRepository.delete(user.get()); // Eliminar el usuario si está presente
+        } else {
+            throw new NoSuchElementException("Usuario no encontrado");
+        }
+    }
+
+
 }
