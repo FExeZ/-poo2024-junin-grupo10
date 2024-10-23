@@ -9,8 +9,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @DiscriminatorValue("EU")
 @EqualsAndHashCode(callSuper = false)
-public class MusicEnthusiastUser extends User{
-    public Boolean canCreateSongs(){
-        return false;
-    }
+public class MusicEnthusiastUser extends User {
+
 }

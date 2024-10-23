@@ -14,13 +14,20 @@ public class MusicEnthusiastUserServiceImp implements MusicEnthusiastUserService
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
-    public void createUser(MusicEnthusiastUser enthusiastUser) throws Exception{
-        MusicEnthusiastUser enthusiastUserDB = musicEnthusiastUserRepository.findByUsername(enthusiastUser.getUsername());
-        if (enthusiastUserDB != null){
+    public void createUser(MusicEnthusiastUser enthusiastUser) throws Exception {
+        MusicEnthusiastUser enthusiastUserDB = musicEnthusiastUserRepository
+                .findByUsername(enthusiastUser.getUsername());
+        if (enthusiastUserDB != null) {
             throw new Exception();
         }
         enthusiastUser.setPassword(passwordEncoder.encode(enthusiastUser.getPassword()));
         musicEnthusiastUserRepository.save(enthusiastUser);
+    }
+
+    @Override
+    public boolean canCreateSong() {
+        return false;
     }
 }

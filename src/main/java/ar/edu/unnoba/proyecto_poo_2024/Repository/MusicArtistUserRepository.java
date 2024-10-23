@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MusicArtistUserRepository extends JpaRepository <MusicArtistUser, Long> {
+public interface MusicArtistUserRepository extends JpaRepository<MusicArtistUser, Long> {
+
+    MusicArtistUser findByUsername(String username);
 }
