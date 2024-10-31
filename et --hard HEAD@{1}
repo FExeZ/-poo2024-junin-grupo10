@@ -1,0 +1,47 @@
+[33mf87ba8d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m HEAD@{0}: reset: moving to origin/develop
+[33mcaf693a[m HEAD@{1}: pull origin: Merge made by the 'ort' strategy.
+[33m7e1d77d[m[33m ([m[1;31morigin/feature/avances-mas-alla-del-tp4[m[33m, [m[1;32mfeature/avances-mas-alla-del-tp4[m[33m)[m HEAD@{2}: checkout: moving from tests_franco to develop
+[33mbfe8ce5[m[33m ([m[1;31morigin/tests_franco[m[33m, [m[1;32mtests_franco[m[33m)[m HEAD@{3}: checkout: moving from bfe8ce5c7e7a8de5efe364944a841eb73e69fdbb to tests_franco
+[33mbfe8ce5[m[33m ([m[1;31morigin/tests_franco[m[33m, [m[1;32mtests_franco[m[33m)[m HEAD@{4}: checkout: moving from tests_franco to origin/tests_franco
+[33mbfe8ce5[m[33m ([m[1;31morigin/tests_franco[m[33m, [m[1;32mtests_franco[m[33m)[m HEAD@{5}: checkout: moving from feature/avances-mas-alla-del-tp4 to tests_franco
+[33m7e1d77d[m[33m ([m[1;31morigin/feature/avances-mas-alla-del-tp4[m[33m, [m[1;32mfeature/avances-mas-alla-del-tp4[m[33m)[m HEAD@{6}: reset: moving to origin/feature/avances-mas-alla-del-tp4
+[33m7e1d77d[m[33m ([m[1;31morigin/feature/avances-mas-alla-del-tp4[m[33m, [m[1;32mfeature/avances-mas-alla-del-tp4[m[33m)[m HEAD@{7}: checkout: moving from develop to feature/avances-mas-alla-del-tp4
+[33m7e1d77d[m[33m ([m[1;31morigin/feature/avances-mas-alla-del-tp4[m[33m, [m[1;32mfeature/avances-mas-alla-del-tp4[m[33m)[m HEAD@{8}: checkout: moving from feature/avances-mas-alla-del-tp4 to develop
+[33m7e1d77d[m[33m ([m[1;31morigin/feature/avances-mas-alla-del-tp4[m[33m, [m[1;32mfeature/avances-mas-alla-del-tp4[m[33m)[m HEAD@{9}: checkout: moving from develop to feature/avances-mas-alla-del-tp4
+[33m7e1d77d[m[33m ([m[1;31morigin/feature/avances-mas-alla-del-tp4[m[33m, [m[1;32mfeature/avances-mas-alla-del-tp4[m[33m)[m HEAD@{10}: merge feature/avances-mas-alla-del-tp4: Fast-forward
+[33me9a84bd[m HEAD@{11}: checkout: moving from feature/avances-mas-alla-del-tp4 to develop
+[33m7e1d77d[m[33m ([m[1;31morigin/feature/avances-mas-alla-del-tp4[m[33m, [m[1;32mfeature/avances-mas-alla-del-tp4[m[33m)[m HEAD@{12}: commit: controller de playlist modificado y service de songs
+[33m6f4527a[m HEAD@{13}: commit: crear playlist asociadas a un usuario sin songs por el momento
+[33me9a84bd[m HEAD@{14}: checkout: moving from develop to feature/avances-mas-alla-del-tp4
+[33me9a84bd[m HEAD@{15}: pull: Fast-forward
+[33m13f0b21[m[33m ([m[1;31morigin/feature/avances-sobre-tp4[m[33m, [m[1;32mfeature/avances-sobre-tp4[m[33m)[m HEAD@{16}: checkout: moving from feature/+avances-sobre-tp4 to develop
+[33m006c756[m[33m ([m[1;32mfeature/+avances-sobre-tp4[m[33m)[m HEAD@{17}: commit: delete user
+[33m13f0b21[m[33m ([m[1;31morigin/feature/avances-sobre-tp4[m[33m, [m[1;32mfeature/avances-sobre-tp4[m[33m)[m HEAD@{18}: checkout: moving from develop to feature/+avances-sobre-tp4
+[33m13f0b21[m[33m ([m[1;31morigin/feature/avances-sobre-tp4[m[33m, [m[1;32mfeature/avances-sobre-tp4[m[33m)[m HEAD@{19}: merge feature/avances-sobre-tp4: Fast-forward
+[33m9fa6908[m HEAD@{20}: checkout: moving from feature/avances-sobre-tp4 to develop
+[33m13f0b21[m[33m ([m[1;31morigin/feature/avances-sobre-tp4[m[33m, [m[1;32mfeature/avances-sobre-tp4[m[33m)[m HEAD@{21}: commit: util-dto-create con exceptions
+[33m9fa6908[m HEAD@{22}: checkout: moving from develop to feature/avances-sobre-tp4
+[33m9fa6908[m HEAD@{23}: merge feature/create-user-endpoint: Fast-forward
+[33m6d489cd[m HEAD@{24}: checkout: moving from feature/create-user-endpoint to develop
+[33m9fa6908[m HEAD@{25}: commit: crear-usuario-entusiasta-endpoint
+[33m6d489cd[m HEAD@{26}: checkout: moving from develop to feature/create-user-endpoint
+[33m6d489cd[m HEAD@{27}: merge feature/un-poco-de-todo: Fast-forward
+[33mad3bbf1[m[33m ([m[1;32mmain[m[33m)[m HEAD@{28}: checkout: moving from feature/un-poco-de-todo to develop
+[33m6d489cd[m HEAD@{29}: commit: probando endpoint
+[33mad3bbf1[m[33m ([m[1;32mmain[m[33m)[m HEAD@{30}: checkout: moving from develop to feature/un-poco-de-todo
+[33mad3bbf1[m[33m ([m[1;32mmain[m[33m)[m HEAD@{31}: merge main: Fast-forward
+[33m9a32f49[m HEAD@{32}: checkout: moving from main to develop
+[33mad3bbf1[m[33m ([m[1;32mmain[m[33m)[m HEAD@{33}: checkout: moving from fito to main
+[33mad3bbf1[m[33m ([m[1;32mmain[m[33m)[m HEAD@{34}: merge main: Fast-forward
+[33m0a9af25[m HEAD@{35}: checkout: moving from main to fito
+[33mad3bbf1[m[33m ([m[1;32mmain[m[33m)[m HEAD@{36}: commit: cascades y fetchs (segun logica mia)
+[33m1dcabdc[m HEAD@{37}: pull origin main: Fast-forward
+[33m821bc2f[m HEAD@{38}: checkout: moving from fito to main
+[33m0a9af25[m HEAD@{39}: commit: correciones de atributos nulos y no nulos / discriminators para la legibilidad de la herencia
+[33m331dc9e[m HEAD@{40}: commit: creacion solo de entities relacionados como dice la consigna
+[33m821bc2f[m HEAD@{41}: checkout: moving from main to fito
+[33m821bc2f[m HEAD@{42}: merge fito: Fast-forward
+[33m9a32f49[m HEAD@{43}: checkout: moving from fito to main
+[33m821bc2f[m HEAD@{44}: commit: capas
+[33m9a32f49[m HEAD@{45}: checkout: moving from main to fito
+[33m9a32f49[m HEAD@{46}: clone: from https://github.com/FExeZ/-poo2024-junin-grupo10.git

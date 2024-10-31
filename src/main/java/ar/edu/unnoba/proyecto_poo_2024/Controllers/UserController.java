@@ -34,4 +34,16 @@ public class UserController {
             // e.getMessage() --> toma el msj del NoSuchEleementExeption del service
         }
     }
+
+    @PostMapping("/playlists/{userId}")
+    public ResponseEntity<?> createUserPlaylist(@PathVariable Long userId, @RequestBody Playlist playlist) {
+        try {
+            userService.createUserPlaylist(userId, playlist); // Llama al servicio para crear la playlist
+            return new ResponseEntity<>(HttpStatus.CREATED); // Respuesta 201 Created
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // Respuesta 404 Not Found
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // Respuesta 409 Conflict
+        }
+    }
 }

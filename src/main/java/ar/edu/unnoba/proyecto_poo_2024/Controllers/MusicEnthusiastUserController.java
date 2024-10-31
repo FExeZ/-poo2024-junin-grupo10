@@ -6,10 +6,7 @@ import ar.edu.unnoba.proyecto_poo_2024.Services.MusicEnthusiastUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 @RestController
 @RequestMapping("/users/enthusiast")
@@ -26,6 +23,24 @@ public class MusicEnthusiastUserController {
             return new ResponseEntity<>(null, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
+    }
+
+    @PutMapping("/enthusiast/{id}")
+    public ResponseEntity<MusicEnthusiastUser> updateMusicEnthusiastUser(@PathVariable Long id, @RequestBody CreateEnthusiastRequestDto MusicEnthusiastUserDetails)
+            throws Exception {
+        if (musicEnthusiastUserService.findById(id).isPresent()) {
+            ModelMapper mapper = new ModelMapper();
+            try {
+                MusicEnthusiastUser musicEnthusiastUserDB = mapper.map(MusicEnthusiastUserDetails,
+                        MusicEnthusiastUser.class);
+                musicEnthusiastUserService.updateUser(musicEnthusiastUserDB);
+                return new ResponseEntity<>(musicEnthusiastUserDB, HttpStatus.ACCEPTED);
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            }
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 }
