@@ -50,4 +50,11 @@ public class UserServiceImp implements UserService {
         playlistService.createPlaylist(playlist);
     }
 
+    @Override
+    public User findByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        return user;
+    }
+
 }

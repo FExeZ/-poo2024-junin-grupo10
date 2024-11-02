@@ -14,4 +14,6 @@ public interface UserService {
 
     void createUserPlaylist(Long userId, Playlist playlist);
 
+    User findByUsername(String username);
+
 }
