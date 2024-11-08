@@ -20,4 +20,5 @@ public interface UserService {
     User findByUsername(String username);
 
     User findById(Long userId);
+    void addSongToPlaylist(Long userId, Long playlistId, Song song) throws Exception;
 }

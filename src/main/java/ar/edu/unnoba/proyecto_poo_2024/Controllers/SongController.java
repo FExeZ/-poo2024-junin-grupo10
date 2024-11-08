@@ -28,6 +28,26 @@ public class SongController {
     AuthorizationService authorizationService;
 
     @GetMapping
+    public ResponseEntity<List<SongResponseDTO>> getAllSongs() {
+        try {
+            // Obtener todas las canciones
+            List<Song> songs = songService.getAll();
+
+            // Mapear las canciones a DTOs
+            ModelMapper modelMapper = new ModelMapper();
+            List<SongResponseDTO> songResponseDTOs = songs.stream()
+                    .map(song -> modelMapper.map(song, SongResponseDTO.class))
+                    .collect(Collectors.toList());
+
+            // Retornar las canciones con estado 200 OK
+            return new ResponseEntity<>(songResponseDTOs, HttpStatus.OK);
+        } catch (Exception e) {
+            // En caso de error, retornar estado 500
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*@GetMapping
     public ResponseEntity<List<SongResponseDTO>> getAllSongs(@RequestHeader("Authorization") String token) {
         try {
             authorizationService.authorize(token);
@@ -40,5 +60,5 @@ public class SongController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
-    }
+    }*/
 }

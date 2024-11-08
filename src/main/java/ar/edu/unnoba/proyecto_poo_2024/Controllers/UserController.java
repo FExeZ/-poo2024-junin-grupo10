@@ -64,4 +64,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Este usuario no tiene permisos para crear canciones.");
         }
     }
+
+    @PostMapping("/{userId}/playlists/{playlistId}/songs")
+    public ResponseEntity<String> addSongToPlaylist(
+            @PathVariable Long userId,
+            @PathVariable Long playlistId,
+            @RequestBody Song song) throws Exception {
+
+        userService.addSongToPlaylist(userId, playlistId, song);
+
+        return ResponseEntity.ok("Canción agregada a la playlist exitosamente.");
+    }
 }
