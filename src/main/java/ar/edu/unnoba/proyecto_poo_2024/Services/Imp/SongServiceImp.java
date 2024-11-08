@@ -16,7 +16,7 @@ public class SongServiceImp implements SongService {
     SongRepository songRepository;
 
     @Override
-    public void createSong(Long id, Song song) {
+    public void createSong(Song song) {
         songRepository.save(song);
     }
 

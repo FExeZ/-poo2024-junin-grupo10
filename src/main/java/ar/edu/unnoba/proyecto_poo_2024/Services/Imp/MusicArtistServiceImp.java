@@ -1,6 +1,10 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 
+import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
+import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
+import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
+import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,9 @@ import java.util.Optional;
 
 @Service
 public class MusicArtistServiceImp implements MusicArtistUserService {
+
+    @Autowired
+    private SongRepository songRepository;
 
     @Autowired
     private MusicArtistUserRepository musicArtistUserRepository;
@@ -29,11 +36,6 @@ public class MusicArtistServiceImp implements MusicArtistUserService {
         }
         artistUser.setPassword(passwordEncoder.encode(artistUser.getPassword()));
         musicArtistUserRepository.save(artistUser);
-    }
-
-    @Override
-    public boolean canCreateSong() {
-        return true;
     }
 
     @Override

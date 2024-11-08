@@ -1,6 +1,7 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 
 import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.PlaylistRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ public class PlaylistServiceImp implements PlaylistService {
         // Guardar la playlist sin asociar a un usuario todavía
         playlistRepository.save(playlist);
     }
-
 
 }
 

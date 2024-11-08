@@ -30,11 +30,6 @@ public class MusicEnthusiastUserServiceImp implements MusicEnthusiastUserService
     }
 
     @Override
-    public boolean canCreateSong() {
-        return false;
-    }
-
-    @Override
     public void updateUser(User user) throws Exception {
         MusicEnthusiastUser musicEnthusiastUserDB = musicEnthusiastUserRepository.findById(user.getId())
                 .orElseThrow(() -> new Exception("Usuario no encontrado"));

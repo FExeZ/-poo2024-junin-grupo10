@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface SongService {
-    void createSong(Long id, Song song);
+    void createSong(Song song);
 
     List<Song> getAll();
 }

@@ -1,7 +1,11 @@
 package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
+import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
+import ar.edu.unnoba.proyecto_poo_2024.Services.MusicArtistUserService;
+import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +21,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    SongService songService;
 
     //obtener todos los usuarios
     @GetMapping
@@ -44,6 +51,17 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // Respuesta 404 Not Found
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // Respuesta 409 Conflict
+        }
+    }
+
+    @PostMapping("/{userId}/createSong")
+    public ResponseEntity<?> createSong(@PathVariable Long userId, @RequestBody Song song) {
+        User user = userService.findById(userId);  // Lógica para encontrar al usuario
+        try {
+            songService.createSong(song);
+            return ResponseEntity.ok("Canción creada exitosamente.");
+        } catch (UnsupportedOperationException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Este usuario no tiene permisos para crear canciones.");
         }
     }
 }
