@@ -12,6 +12,6 @@ import lombok.EqualsAndHashCode;
 public class MusicEnthusiastUser extends User {
     @Override
     public boolean canCreateSong() {
-        return true;
+        return false;
     }
 }

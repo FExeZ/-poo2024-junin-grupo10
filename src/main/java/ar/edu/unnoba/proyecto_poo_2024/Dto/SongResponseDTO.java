@@ -8,7 +8,5 @@ import lombok.Data;
 public class SongResponseDTO {
     private long id;
     private String name;
-    private String description;
     private Genre genre;
-    private MusicArtistUser artist;
 }

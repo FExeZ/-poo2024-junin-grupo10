@@ -22,13 +22,12 @@ public class AuthenticationServiceImp implements AuthenticationService {
     @Override
     public String authenticate(User user) throws Exception {
         User userDB = userService.findByUsername(user.getUsername());
-        if (userDB == null)
-            throw new Exception();
-        if (!passwordEncoder.verify(
-                user.getPassword(),
-                userDB.getPassword()))
-            throw new Exception();
+        if (userDB == null) {
+            throw new Exception("Usuario no encontrado en la base de datos.");
+        }
+        if (!passwordEncoder.verify(user.getPassword(), userDB.getPassword())) {
+            throw new Exception("Contraseña incorrecta.");
+        }
         return jwtTokenUtil.generateToken(user.getUsername());
     }
-
 }

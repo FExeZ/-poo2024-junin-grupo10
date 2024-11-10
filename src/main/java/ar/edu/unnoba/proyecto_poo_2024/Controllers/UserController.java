@@ -56,14 +56,24 @@ public class UserController {
 
     @PostMapping("/{userId}/createSong")
     public ResponseEntity<?> createSong(@PathVariable Long userId, @RequestBody Song song) {
-        User user = userService.findById(userId);  // Lógica para encontrar al usuario
         try {
-            songService.createSong(song);
+            // Obtener el usuario por ID
+            User user = userService.findById(userId);
+
+            // Intentamos crear la canción
+            songService.createSong(user, song);
+
+            // Si no hay excepciones, respondemos con éxito
             return ResponseEntity.ok("Canción creada exitosamente.");
         } catch (UnsupportedOperationException e) {
+            // Si el usuario no tiene permisos, respondemos con un error 403 (Forbidden)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Este usuario no tiene permisos para crear canciones.");
+        } catch (Exception e) {
+            // En caso de cualquier otro error, respondemos con un error 500 (Internal Server Error)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
+
 
     @PostMapping("/{userId}/playlists/{playlistId}/songs")
     public ResponseEntity<String> addSongToPlaylist(

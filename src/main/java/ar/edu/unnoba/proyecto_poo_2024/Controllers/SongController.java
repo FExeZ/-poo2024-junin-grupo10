@@ -27,7 +27,7 @@ public class SongController {
     @Autowired
     AuthorizationService authorizationService;
 
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<SongResponseDTO>> getAllSongs() {
         try {
             // Obtener todas las canciones
@@ -45,9 +45,9 @@ public class SongController {
             // En caso de error, retornar estado 500
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 
-    /*@GetMapping
+    @GetMapping
     public ResponseEntity<List<SongResponseDTO>> getAllSongs(@RequestHeader("Authorization") String token) {
         try {
             authorizationService.authorize(token);
@@ -60,5 +60,5 @@ public class SongController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
-    }*/
+    }
 }
