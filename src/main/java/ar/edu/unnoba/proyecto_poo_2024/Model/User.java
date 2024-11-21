@@ -1,5 +1,7 @@
 package ar.edu.unnoba.proyecto_poo_2024.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,4 +29,6 @@ public abstract class User {
     // el cascade es para que por ejemplo cuando se borre un user entonces se borren
     // las playlists asociadas
     private List<Playlist> playlists;
+
+    public abstract boolean canCreateSong();
 }

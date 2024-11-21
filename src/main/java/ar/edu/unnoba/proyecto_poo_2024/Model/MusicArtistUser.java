@@ -18,4 +18,8 @@ public class MusicArtistUser extends User {
     @OneToMany(mappedBy = "musicArtistUser", fetch = FetchType.LAZY)
     private List<Song> songs;
 
+    @Override
+    public boolean canCreateSong() {
+        return true;
+    }
 }

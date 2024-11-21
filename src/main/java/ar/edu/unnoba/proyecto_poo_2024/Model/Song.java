@@ -1,6 +1,7 @@
 package ar.edu.unnoba.proyecto_poo_2024.Model;
 
 import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,7 +23,8 @@ public class Song {
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY) // dsp modificar, enrealidad esta como false el optional
     @JoinColumn(name = "music_artist_user_id", foreignKey = @ForeignKey(name = "fk_artist_user_id")) // nombre de la
-                                                                                                     // columna en la
+    @JsonBackReference
+    // columna en la
                                                                                                      // tabla
     private MusicArtistUser musicArtistUser;
 }

@@ -6,7 +6,6 @@ import java.util.Optional;
 
 public interface MusicEnthusiastUserService {
     public void createUser(MusicEnthusiastUser user) throws Exception;
-    public boolean canCreateSong();
     public void updateUser(User user) throws Exception;
     public Optional<MusicEnthusiastUser> findById(Long id) throws Exception;
 
