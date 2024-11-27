@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface SongService {
     void createSong(User user,Song song);
-
+    boolean deleteSongByIdAndUser(Long songId, Long userId);
     List<Song> getAll();
 }

@@ -8,10 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import ar.edu.unnoba.proyecto_poo_2024.Dto.SongResponseDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
@@ -46,6 +43,17 @@ public class SongController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }*/
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSong(@PathVariable Long id, @RequestParam Long userId) {
+        boolean deleted = songService.deleteSongByIdAndUser(id, userId);
+        if (deleted) {
+            return ResponseEntity.ok("Song with ID " + id + " deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("You are not authorized to delete this song or it does not exist.");
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<SongResponseDTO>> getAllSongs(@RequestHeader("Authorization") String token) {

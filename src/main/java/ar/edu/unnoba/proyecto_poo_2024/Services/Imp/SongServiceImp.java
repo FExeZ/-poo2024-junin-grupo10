@@ -6,6 +6,7 @@ import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,15 @@ public class SongServiceImp implements SongService {
         songRepository.save(song);
     }
 
+    @Override
+    public boolean deleteSongByIdAndUser(Long songId, Long userId) {
+        Optional<Song> song = songRepository.findById(songId);
+        if (song.isPresent() && song.get().getMusicArtistUser().getId().equals(userId)) {
+            songRepository.delete(song.get());
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public List<Song> getAll() {
