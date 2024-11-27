@@ -1,10 +1,14 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services;
 
 import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
+import ar.edu.unnoba.proyecto_poo_2024.Model.User;
 
-public interface MusicArtistUserService {
-    public void createUser(MusicArtistUser user) throws Exception;
+import java.util.Optional;
 
-    public boolean canCreateSong();
+public interface MusicArtistUserService{
+    void createUser(MusicArtistUser user) throws Exception;
+    void updateUser(User user) throws Exception;
+    Optional<MusicArtistUser> findById(Long id) throws Exception;
 
 }

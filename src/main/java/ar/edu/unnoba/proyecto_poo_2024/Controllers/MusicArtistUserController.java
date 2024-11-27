@@ -4,13 +4,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 
+import ar.edu.unnoba.proyecto_poo_2024.Dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateArtistRequestDto;
 import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
+import ar.edu.unnoba.proyecto_poo_2024.Services.AuthenticationService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.MusicArtistUserService;
 
 @RestController
@@ -18,6 +19,8 @@ import ar.edu.unnoba.proyecto_poo_2024.Services.MusicArtistUserService;
 public class MusicArtistUserController {
     @Autowired
     MusicArtistUserService musicArtistUserService;
+    @Autowired
+    AuthenticationService authenticationService;
 
     @PostMapping("/registrar")
     public ResponseEntity<?> createOneUser(@RequestBody CreateArtistRequestDto userDto) {
@@ -28,6 +31,38 @@ public class MusicArtistUserController {
             return new ResponseEntity<>(null, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MusicArtistUser> updateMusicArtistUser(@PathVariable Long id,
+            @RequestBody CreateArtistRequestDto MusicArtistUserDetails)
+            throws Exception {
+        if (musicArtistUserService.findById(id).isPresent()) {
+            ModelMapper mapper = new ModelMapper();
+            try {
+                MusicArtistUser musicArtistUserDB = mapper.map(MusicArtistUserDetails, MusicArtistUser.class);
+                musicArtistUserService.updateUser(musicArtistUserDB);
+                return new ResponseEntity<>(musicArtistUserDB, HttpStatus.ACCEPTED);
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            }
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping(path = "/auth", produces = "application/json")
+    public ResponseEntity<?> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        MusicArtistUser musicArtistUser = modelMapper.map(authenticationRequestDTO, MusicArtistUser.class);
+        try {
+            String token = authenticationService.authenticate(musicArtistUser);
+            MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+            multiValueMap.add("token", token);
+            return new ResponseEntity<>(token, null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
     }
 }

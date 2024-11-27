@@ -1,5 +1,6 @@
 package ar.edu.unnoba.proyecto_poo_2024;
 
+import ar.edu.unnoba.proyecto_poo_2024.Util.JwtTokenUtil;
 import ar.edu.unnoba.proyecto_poo_2024.Util.PasswordEncoder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,12 @@ public class ProyectoPoo2024Application {
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder() {
 		return new PasswordEncoder();
+	}
+
+	@Bean
+	public JwtTokenUtil jwtTokenUtil() {
+		return new JwtTokenUtil();
 	}
 }
