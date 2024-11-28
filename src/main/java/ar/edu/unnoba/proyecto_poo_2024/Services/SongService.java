@@ -12,4 +12,5 @@ public interface SongService {
     void createSong(User user,Song song);
     void deleteSongByIdAndUser(Long songId, Long userId) throws Exception;
     List<Song> getAll();
+    List<Song> getCreatedSongsByUser(Long userId);
 }

@@ -58,4 +58,19 @@ public class SongController {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
     }
+
+    @GetMapping("/user/{userId}/created-songs")
+    public ResponseEntity<List<Song>> getCreatedSongsByUser(@PathVariable Long userId) {
+        try {
+            List<Song> songs = songService.getCreatedSongsByUser(userId);
+            return ResponseEntity.ok(songs);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.emptyList());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+        }
+    }
+
 }
