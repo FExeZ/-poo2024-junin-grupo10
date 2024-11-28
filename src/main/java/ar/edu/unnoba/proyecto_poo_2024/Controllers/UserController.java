@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/playlists/{playlistId}/songs")
-    public ResponseEntity<String> addSongToPlaylist(
+    public ResponseEntity<?> addSongToPlaylist(
             @PathVariable Long userId,
             @PathVariable Long playlistId,
             @RequestBody Song song) throws Exception {

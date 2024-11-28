@@ -2,6 +2,7 @@ package ar.edu.unnoba.proyecto_poo_2024.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,14 +25,11 @@ public class Playlist {
     @JsonBackReference
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    // al guardar o actualizar una Playlist, automáticamente se guarden o actualicen
-    // las Song asociadas.
-    // no es seguro pero esa es la logica la cual pienso en este caso.
-    @JoinTable(name = "playlist_song", // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "playlist_id"), // Clave foránea de Playlist
-            inverseJoinColumns = @JoinColumn(name = "song_id") // Clave foránea de Song
-    )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinTable(name = "playlist_song",
+            joinColumns = @JoinColumn(name = "playlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    @JsonManagedReference
     private List<Song> songs;
 
 }

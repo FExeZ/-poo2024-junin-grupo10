@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "songs")
 @Data
@@ -21,10 +23,12 @@ public class Song {
     @Column(name = "genre", nullable = false)
     private Genre genre;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY) // dsp modificar, enrealidad esta como false el optional
-    @JoinColumn(name = "music_artist_user_id", foreignKey = @ForeignKey(name = "fk_artist_user_id")) // nombre de la
+    @ManyToOne(fetch = FetchType.LAZY) // dsp modificar, enrealidad esta como false el optional
+    @JoinColumn(name = "music_artist_user_id", foreignKey = @ForeignKey(name = "fk_artist_user_id"))
     @JsonBackReference
-    // columna en la
-                                                                                                     // tabla
     private MusicArtistUser musicArtistUser;
+
+    @ManyToMany(mappedBy = "songs", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private List<Playlist> playlists;
 }

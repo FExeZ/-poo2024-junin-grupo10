@@ -2,7 +2,9 @@ package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
 import org.modelmapper.ModelMapper;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,36 +26,23 @@ public class SongController {
     @Autowired
     AuthorizationService authorizationService;
 
-    /*@GetMapping
-    public ResponseEntity<List<SongResponseDTO>> getAllSongs() {
+    @DeleteMapping("/{songId}/user/{userId}")
+    public ResponseEntity<String> deleteSong(
+            @PathVariable Long songId,
+            @PathVariable Long userId) {
         try {
-            // Obtener todas las canciones
-            List<Song> songs = songService.getAll();
-
-            // Mapear las canciones a DTOs
-            ModelMapper modelMapper = new ModelMapper();
-            List<SongResponseDTO> songResponseDTOs = songs.stream()
-                    .map(song -> modelMapper.map(song, SongResponseDTO.class))
-                    .collect(Collectors.toList());
-
-            // Retornar las canciones con estado 200 OK
-            return new ResponseEntity<>(songResponseDTOs, HttpStatus.OK);
+            songService.deleteSongByIdAndUser(songId, userId);
+            return ResponseEntity.ok("Canción eliminada exitosamente.");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
-            // En caso de error, retornar estado 500
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }*/
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSong(@PathVariable Long id, @RequestParam Long userId) {
-        boolean deleted = songService.deleteSongByIdAndUser(id, userId);
-        if (deleted) {
-            return ResponseEntity.ok("Song with ID " + id + " deleted successfully.");
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("You are not authorized to delete this song or it does not exist.");
+            e.printStackTrace(); // Agrega esta línea para imprimir la excepción
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
+
 
     @GetMapping
     public ResponseEntity<List<SongResponseDTO>> getAllSongs(@RequestHeader("Authorization") String token) {
