@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +55,8 @@ public class SongServiceImp implements SongService {
             throw new IllegalAccessException("No tienes permiso para eliminar esta canción.");
         }
 
-        // Eliminar la canción y sus asociaciones automáticamente (gracias a CascadeType.REMOVE)
+        // Eliminar la canción y sus asociaciones automáticamente (gracias a
+        // CascadeType.REMOVE)
         songRepository.delete(song);
     }
 
@@ -69,6 +68,7 @@ public class SongServiceImp implements SongService {
         songDB.setGenre(song.getGenre());
         songRepository.save(songDB);
     }
+
     @Override
     public List<Song> getAll() {
         return songRepository.findAll();
@@ -88,16 +88,16 @@ public class SongServiceImp implements SongService {
 
     public Song findById(Long SongId) {
         return songRepository.findById(SongId)
-                .orElseThrow(() -> new RuntimeException("Cancion no encontrada"));  // Maneja el caso de no encontrar al usuario
+                .orElseThrow(() -> new RuntimeException("Cancion no encontrada")); // Maneja el caso de no encontrar al
+                                                                                   // usuario
     }
+
     public SongResponseDTO getSongById(Long songId) {
         return songRepository.findById(songId)
                 .map(song -> new SongResponseDTO(
                         song.getId(),
                         song.getName(),
-                        song.getGenre()
-                ))
+                        song.getGenre()))
                 .orElse(null); // Retorna null si no se encuentra la canción
     }
 }
-

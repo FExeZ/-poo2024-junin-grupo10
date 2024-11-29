@@ -82,7 +82,8 @@ public class UserServiceImp implements UserService {
 
     public User findById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));  // Maneja el caso de no encontrar al usuario
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado")); // Maneja el caso de no encontrar al
+                                                                                   // usuario
     }
 
     public void addSongToPlaylist(Long userId, Long playlistId, Song song) throws Exception {

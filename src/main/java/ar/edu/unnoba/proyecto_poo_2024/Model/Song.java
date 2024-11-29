@@ -33,7 +33,6 @@ public class Song {
     @JsonBackReference
     private List<Playlist> playlists;
 
-
     public boolean isPresent() {
         return false;
     }

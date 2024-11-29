@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-
 import ar.edu.unnoba.proyecto_poo_2024.Dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateArtistRequestDto;
 import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;

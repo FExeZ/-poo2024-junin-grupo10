@@ -26,9 +26,9 @@ public class UserController {
     @Autowired
     SongService songService;
 
-    //obtener todos los usuarios
+    // obtener todos los usuarios
     @GetMapping
-    public List<User> getAllUsers (){
+    public List<User> getAllUsers() {
         return userService.getUsers();
     }
 
@@ -38,7 +38,7 @@ public class UserController {
             userService.deleteUser(userId);
             return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);  // 404 si no se encuentra el usuario
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // 404 si no se encuentra el usuario
             // e.getMessage() --> toma el msj del NoSuchEleementExeption del service
         }
     }
@@ -68,12 +68,15 @@ public class UserController {
             return ResponseEntity.ok("Canción creada exitosamente.");
         } catch (UnsupportedOperationException e) {
             // Si el usuario no tiene permisos, respondemos con un error 403 (Forbidden)
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Este usuario no tiene permisos para crear canciones.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Este usuario no tiene permisos para crear canciones.");
         } catch (Exception e) {
-            // En caso de cualquier otro error, respondemos con un error 500 (Internal Server Error)
+            // En caso de cualquier otro error, respondemos con un error 500 (Internal
+            // Server Error)
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
+
     @PutMapping("/{userId}/updateSong")
     public ResponseEntity<?> updateSong(Song song) throws Exception {
         try {
@@ -84,9 +87,11 @@ public class UserController {
             return ResponseEntity.ok("Canción actualizada exitosamente.");
         } catch (UnsupportedOperationException e) {
             // Si el usuario no tiene permisos, respondemos con un error 403 (Forbidden)
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Este usuario no tiene permisos para actualiar canciones.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Este usuario no tiene permisos para actualiar canciones.");
         } catch (Exception e) {
-            // En caso de cualquier otro error, respondemos con un error 500 (Internal Server Error)
+            // En caso de cualquier otro error, respondemos con un error 500 (Internal
+            // Server Error)
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
@@ -101,6 +106,5 @@ public class UserController {
 
         return ResponseEntity.ok("Canción agregada a la playlist exitosamente.");
     }
-
 
 }

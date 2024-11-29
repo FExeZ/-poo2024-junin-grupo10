@@ -49,7 +49,6 @@ public class SongController {
         }
     }
 
-
     @GetMapping
     public ResponseEntity<List<SongResponseDTO>> getAllSongs(@RequestHeader("Authorization") String token) {
         try {
@@ -78,6 +77,7 @@ public class SongController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<SongResponseDTO> getSong(@PathVariable Long songId) {
         SongResponseDTO song = songService.getSongById(songId);
@@ -89,7 +89,7 @@ public class SongController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Song> updateSong(@PathVariable Long id,
-                                           @RequestBody CreateSongRequestDTO SongDetails)
+            @RequestBody CreateSongRequestDTO SongDetails)
             throws Exception {
         if (songService.findById(id).isPresent()) {
             ModelMapper mapper = new ModelMapper();
