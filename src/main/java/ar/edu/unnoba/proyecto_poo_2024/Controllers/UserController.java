@@ -1,5 +1,6 @@
 package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
+import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
 import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
@@ -73,6 +74,22 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
+    @PutMapping("/{userId}/updateSong")
+    public ResponseEntity<?> updateSong(Song song) throws Exception {
+        try {
+            // Intentamos crear la canción
+            songService.updateSong(song);
+
+            // Si no hay excepciones, respondemos con éxito
+            return ResponseEntity.ok("Canción actualizada exitosamente.");
+        } catch (UnsupportedOperationException e) {
+            // Si el usuario no tiene permisos, respondemos con un error 403 (Forbidden)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Este usuario no tiene permisos para actualiar canciones.");
+        } catch (Exception e) {
+            // En caso de cualquier otro error, respondemos con un error 500 (Internal Server Error)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
+        }
+    }
 
     @PostMapping("/{userId}/playlists/{playlistId}/songs")
     public ResponseEntity<?> addSongToPlaylist(
@@ -84,4 +101,6 @@ public class UserController {
 
         return ResponseEntity.ok("Canción agregada a la playlist exitosamente.");
     }
+
+
 }

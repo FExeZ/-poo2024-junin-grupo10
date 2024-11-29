@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.nio.file.Path;
 import java.util.List;
 
 @Entity
@@ -31,4 +32,9 @@ public class Song {
     @ManyToMany(mappedBy = "songs", cascade = CascadeType.REMOVE)
     @JsonBackReference
     private List<Playlist> playlists;
+
+
+    public boolean isPresent() {
+        return false;
+    }
 }

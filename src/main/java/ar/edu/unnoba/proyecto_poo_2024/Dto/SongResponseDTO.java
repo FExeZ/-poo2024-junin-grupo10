@@ -9,4 +9,10 @@ public class SongResponseDTO {
     private long id;
     private String name;
     private Genre genre;
+
+    public SongResponseDTO(long id, String name, Genre genre) {
+        this.id = id;
+        this.name = name;
+        this.genre = genre;
+    }
 }

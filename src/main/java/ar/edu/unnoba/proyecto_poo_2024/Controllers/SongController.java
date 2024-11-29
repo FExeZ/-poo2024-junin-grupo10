@@ -1,5 +1,9 @@
 package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
+import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateEnthusiastRequestDto;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
+import ar.edu.unnoba.proyecto_poo_2024.Model.MusicEnthusiastUser;
 import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
@@ -10,6 +14,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import ar.edu.unnoba.proyecto_poo_2024.Dto.SongResponseDTO;
@@ -72,5 +78,30 @@ public class SongController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
         }
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<SongResponseDTO> getSong(@PathVariable Long songId) {
+        SongResponseDTO song = songService.getSongById(songId);
+        if (song == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(song);
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Song> updateSong(@PathVariable Long id,
+                                           @RequestBody CreateSongRequestDTO SongDetails)
+            throws Exception {
+        if (songService.findById(id).isPresent()) {
+            ModelMapper mapper = new ModelMapper();
+            try {
+                Song songDB = mapper.map(SongDetails, Song.class);
+                songService.updateSong(songDB);
+                return new ResponseEntity<>(songDB, HttpStatus.ACCEPTED);
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            }
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 }

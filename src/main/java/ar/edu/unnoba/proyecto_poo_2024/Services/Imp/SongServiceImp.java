@@ -1,19 +1,20 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 
-import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
-import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
-import ar.edu.unnoba.proyecto_poo_2024.Model.User;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.SongResponseDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Model.*;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.PlaylistRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
+import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +62,14 @@ public class SongServiceImp implements SongService {
     }
 
     @Override
+    public void updateSong(Song song) throws Exception {
+        Song songDB = songRepository.findById(song.getId())
+                .orElseThrow(() -> new Exception("Cancion no encontrada"));
+        songDB.setName(song.getName());
+        songDB.setGenre(song.getGenre());
+        songRepository.save(songDB);
+    }
+    @Override
     public List<Song> getAll() {
         return songRepository.findAll();
     }
@@ -76,4 +85,19 @@ public class SongServiceImp implements SongService {
         // Dado que sabemos que es un artista, podemos acceder a las canciones creadas
         return songRepository.findAllByMusicArtistUserId(userId);
     }
+
+    public Song findById(Long SongId) {
+        return songRepository.findById(SongId)
+                .orElseThrow(() -> new RuntimeException("Cancion no encontrada"));  // Maneja el caso de no encontrar al usuario
+    }
+    public SongResponseDTO getSongById(Long songId) {
+        return songRepository.findById(songId)
+                .map(song -> new SongResponseDTO(
+                        song.getId(),
+                        song.getName(),
+                        song.getGenre()
+                ))
+                .orElse(null); // Retorna null si no se encuentra la canción
+    }
 }
+
