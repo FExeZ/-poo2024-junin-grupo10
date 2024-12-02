@@ -2,14 +2,12 @@ package ar.edu.unnoba.proyecto_poo_2024.Util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.Serializable;
 import java.util.Date;
+
 @Data
 @Component
 public class JwtTokenUtil implements Serializable {

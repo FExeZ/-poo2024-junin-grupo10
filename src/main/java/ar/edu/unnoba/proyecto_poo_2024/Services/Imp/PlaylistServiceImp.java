@@ -70,14 +70,22 @@ public class PlaylistServiceImp implements PlaylistService {
 
     @Override
     public void deletePlaylist(Long playlistId, Long userId) {
+        // Buscar la playlist por ID
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new RuntimeException("Playlist not found"));
 
-        // Validar si el usuario es el creador de la playlist
+        // Verificar que el usuario es el dueño de la playlist
         if (!playlist.getUser().getId().equals(userId)) {
-            throw new UnsupportedOperationException("User not authorized to delete this playlist");
+            throw new UnsupportedOperationException("Este usuario no es dueño de esta playlist.");
         }
 
+        // Desvincular las canciones de la playlist (sin borrarlas)
+        playlist.getSongs().clear(); // Esto desvincula las canciones de la playlist
+
+        // Guardar los cambios de desvinculación
+        playlistRepository.save(playlist);
+
+        // Finalmente, eliminar la playlist
         playlistRepository.delete(playlist);
     }
 

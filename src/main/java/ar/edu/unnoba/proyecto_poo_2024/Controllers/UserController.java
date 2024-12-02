@@ -1,11 +1,9 @@
 package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
-import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
-import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
-import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
-import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.CreatePlaylistRequestDto;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
-import ar.edu.unnoba.proyecto_poo_2024.Services.MusicArtistUserService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +25,12 @@ public class UserController {
     SongService songService;
 
     // obtener todos los usuarios
-    @GetMapping
+    @GetMapping // ENDPOINT PROBADO
     public List<User> getAllUsers() {
         return userService.getUsers();
     }
 
-    @DeleteMapping("/delete/{userId}")
+    @DeleteMapping("/user/{userId}/deletePlaylist") // ENDPOINT PROBADO
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         try {
             userService.deleteUser(userId);
@@ -43,8 +41,9 @@ public class UserController {
         }
     }
 
-    @PostMapping("/playlists/{userId}")
-    public ResponseEntity<?> createUserPlaylist(@PathVariable Long userId, @RequestBody Playlist playlist) {
+    @PostMapping("/user/{userId}/createPlaylist") // ENDPOINT PROBADO
+    public ResponseEntity<?> createUserPlaylist(@PathVariable Long userId,
+            @RequestBody CreatePlaylistRequestDto playlist) {
         try {
             userService.createUserPlaylist(userId, playlist); // Llama al servicio para crear la playlist
             return new ResponseEntity<>(HttpStatus.CREATED); // Respuesta 201 Created
@@ -55,8 +54,8 @@ public class UserController {
         }
     }
 
-    @PostMapping("/{userId}/createSong")
-    public ResponseEntity<?> createSong(@PathVariable Long userId, @RequestBody Song song) {
+    @PostMapping("/user/{userId}/createSong") // ENDPOINT PROBADO
+    public ResponseEntity<?> createSong(@PathVariable Long userId, @RequestBody CreateSongRequestDTO song) {
         try {
             // Obtener el usuario por ID
             User user = userService.findById(userId);
@@ -77,32 +76,29 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}/updateSong")
-    public ResponseEntity<?> updateSong(Song song) throws Exception {
+    @PutMapping("/user/{userId}/songs/{songId}") // ENDPOINT PROBADO
+    public ResponseEntity<?> updateSong(
+            @PathVariable Long userId,
+            @PathVariable Long songId,
+            @RequestBody UpdateSongRequestDTO song) {
         try {
-            // Intentamos crear la canción
-            songService.updateSong(song);
-
-            // Si no hay excepciones, respondemos con éxito
+            songService.updateSong(userId, songId, song);
             return ResponseEntity.ok("Canción actualizada exitosamente.");
         } catch (UnsupportedOperationException e) {
-            // Si el usuario no tiene permisos, respondemos con un error 403 (Forbidden)
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Este usuario no tiene permisos para actualiar canciones.");
+                    .body("Este usuario no tiene permisos para actualizar canciones.");
         } catch (Exception e) {
-            // En caso de cualquier otro error, respondemos con un error 500 (Internal
-            // Server Error)
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @PostMapping("/{userId}/playlists/{playlistId}/songs")
+    @PostMapping("/user/{userId}/playlists/{playlistId}/songs/{songId}") // ENDPOINT PROBADO
     public ResponseEntity<?> addSongToPlaylist(
             @PathVariable Long userId,
             @PathVariable Long playlistId,
-            @RequestBody Song song) throws Exception {
+            @PathVariable Long songId) throws Exception {
 
-        userService.addSongToPlaylist(userId, playlistId, song);
+        userService.addSongToPlaylist(userId, playlistId, songId);
 
         return ResponseEntity.ok("Canción agregada a la playlist exitosamente.");
     }

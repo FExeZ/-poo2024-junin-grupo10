@@ -21,6 +21,7 @@ public class MusicArtistUserController {
     @Autowired
     AuthenticationService authenticationService;
 
+    @SuppressWarnings("null")
     @PostMapping("/registrar")
     public ResponseEntity<?> createOneUser(@RequestBody CreateArtistRequestDto userDto) {
         ModelMapper modelMapper = new ModelMapper();
@@ -33,6 +34,7 @@ public class MusicArtistUserController {
         }
     }
 
+    @SuppressWarnings("null")
     @PutMapping("/{id}")
     public ResponseEntity<MusicArtistUser> updateMusicArtistUser(@PathVariable Long id,
             @RequestBody CreateArtistRequestDto MusicArtistUserDetails)
@@ -51,6 +53,7 @@ public class MusicArtistUserController {
         }
     }
 
+    @SuppressWarnings("null")
     @PostMapping(path = "/auth", produces = "application/json")
     public ResponseEntity<?> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
         ModelMapper modelMapper = new ModelMapper();

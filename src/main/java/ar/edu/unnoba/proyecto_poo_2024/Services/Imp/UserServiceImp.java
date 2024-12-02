@@ -1,5 +1,6 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 
+import ar.edu.unnoba.proyecto_poo_2024.Dto.CreatePlaylistRequestDto;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
@@ -9,11 +10,9 @@ import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.PlaylistService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
 import ar.edu.unnoba.proyecto_poo_2024.Util.JwtTokenUtil;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -61,16 +60,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void createUserPlaylist(Long userId, Playlist playlist) {
+    public void createUserPlaylist(Long userId, CreatePlaylistRequestDto playlist) {
         // Buscar el usuario por su ID
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
+        Playlist newPlaylist = new Playlist();
+        newPlaylist.setName(playlist.getName());
+
         // Establecer la relación entre la playlist y el usuario
-        playlist.setUser(user);
+        newPlaylist.setUser(user);
 
         // Crear la playlist usando el servicio de playlists
-        playlistService.createPlaylist(playlist);
+        playlistService.createPlaylist(newPlaylist);
     }
 
     @Override
@@ -86,13 +88,14 @@ public class UserServiceImp implements UserService {
                                                                                    // usuario
     }
 
-    public void addSongToPlaylist(Long userId, Long playlistId, Song song) throws Exception {
+    public void addSongToPlaylist(Long userId, Long playlistId, Long songId) throws Exception {
+        @SuppressWarnings("unused")
         User user = userRepository.findById(userId).orElseThrow(() -> new Exception("Usuario no encontrado"));
 
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new Exception("Playlist no encontrada"));
 
-        Song songToAdd = songRepository.findById(song.getId())
+        Song songToAdd = songRepository.findById(songId)
                 .orElseThrow(() -> new Exception("Canción no encontrada"));
 
         if (playlist.getSongs().contains(songToAdd)) {

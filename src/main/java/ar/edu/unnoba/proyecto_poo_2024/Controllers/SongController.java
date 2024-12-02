@@ -1,9 +1,5 @@
 package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
-import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateEnthusiastRequestDto;
-import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
-import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
-import ar.edu.unnoba.proyecto_poo_2024.Model.MusicEnthusiastUser;
 import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
@@ -14,11 +10,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import ar.edu.unnoba.proyecto_poo_2024.Dto.SongResponseDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import ar.edu.unnoba.proyecto_poo_2024.Services.AuthorizationService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
@@ -32,7 +27,7 @@ public class SongController {
     @Autowired
     AuthorizationService authorizationService;
 
-    @DeleteMapping("/{songId}/user/{userId}")
+    @DeleteMapping("/{songId}/user/{userId}") // ENDPOINT PROBADO
     public ResponseEntity<String> deleteSong(
             @PathVariable Long songId,
             @PathVariable Long userId) {
@@ -49,7 +44,8 @@ public class SongController {
         }
     }
 
-    @GetMapping
+    @SuppressWarnings("null")
+    @GetMapping // ENDPOINT PROBADO
     public ResponseEntity<List<SongResponseDTO>> getAllSongs(@RequestHeader("Authorization") String token) {
         try {
             authorizationService.authorize(token);
@@ -64,7 +60,7 @@ public class SongController {
         }
     }
 
-    @GetMapping("/user/{userId}/created-songs")
+    @GetMapping("/user/{userId}/created-songs") // ENDPOINT PROBADO
     public ResponseEntity<List<Song>> getCreatedSongsByUser(@PathVariable Long userId) {
         try {
             List<Song> songs = songService.getCreatedSongsByUser(userId);
@@ -78,30 +74,38 @@ public class SongController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SongResponseDTO> getSong(@PathVariable Long songId) {
-        SongResponseDTO song = songService.getSongById(songId);
-        if (song == null) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/{songId}")
+    public ResponseEntity<?> getSongById(@PathVariable Long songId) {
+        try {
+            // Llamar al servicio para obtener la canción por su ID
+            Song song = songService.getSongById(songId);
+
+            // Mapear la canción a un DTO para la respuesta
+            ModelMapper modelMapper = new ModelMapper();
+            SongResponseDTO songResponseDTO = modelMapper.map(song, SongResponseDTO.class);
+
+            // Retornar la canción en la respuesta
+            return ResponseEntity.ok(songResponseDTO);
+        } catch (RuntimeException e) {
+            // Si la canción no se encuentra, retornar error 404
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Canción no encontrada.");
         }
-        return ResponseEntity.ok(song);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Song> updateSong(@PathVariable Long id,
-            @RequestBody CreateSongRequestDTO SongDetails)
-            throws Exception {
-        if (songService.findById(id).isPresent()) {
-            ModelMapper mapper = new ModelMapper();
-            try {
-                Song songDB = mapper.map(SongDetails, Song.class);
-                songService.updateSong(songDB);
-                return new ResponseEntity<>(songDB, HttpStatus.ACCEPTED);
-            } catch (Exception e) {
-                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-            }
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}") // ENDPOINT PROBADO
+    public ResponseEntity<?> updateSong(
+            @PathVariable Long userId,
+            @PathVariable Long songId,
+            @RequestBody UpdateSongRequestDTO song) {
+        try {
+            songService.updateSong(userId, songId, song);
+            return ResponseEntity.ok("Canción actualizada exitosamente.");
+        } catch (UnsupportedOperationException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Este usuario no tiene permisos para actualizar canciones.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 }

@@ -1,13 +1,12 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 
-import ar.edu.unnoba.proyecto_poo_2024.Dto.SongResponseDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.*;
-import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.PlaylistRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
-import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,15 +28,19 @@ public class SongServiceImp implements SongService {
     PlaylistRepository playlistRepository;
 
     @Override
-    public void createSong(User user, Song song) {
+    public void createSong(User user, CreateSongRequestDTO song) {
         // Verificamos si el usuario tiene permisos para crear la canción
         if (!user.canCreateSong()) {
             // Si no tiene permisos, lanzamos una excepción
             throw new UnsupportedOperationException("Este usuario no tiene permisos para crear canciones.");
         }
-
+        MusicArtistUser musicArtistUser = (MusicArtistUser) user;
+        Song newSong = new Song();
+        newSong.setName(song.getName());
+        newSong.setGenre((song.getGenre()));
+        newSong.setMusicArtistUser(musicArtistUser);
         // Si el usuario tiene permisos, guardamos la canción
-        songRepository.save(song);
+        songRepository.save(newSong);
     }
 
     @Override
@@ -61,11 +64,21 @@ public class SongServiceImp implements SongService {
     }
 
     @Override
-    public void updateSong(Song song) throws Exception {
-        Song songDB = songRepository.findById(song.getId())
-                .orElseThrow(() -> new Exception("Cancion no encontrada"));
+    public void updateSong(Long userId, Long songId, UpdateSongRequestDTO song) throws Exception {
+        // Buscar la canción en la base de datos
+        Song songDB = songRepository.findById(songId)
+                .orElseThrow(() -> new Exception("Canción no encontrada"));
+
+        // Verificar si el usuario es el dueño de la canción
+        if (!songDB.getMusicArtistUser().getId().equals(userId)) {
+            throw new Exception("El usuario no es el dueño de esta canción.");
+        }
+
+        // Actualizar los datos de la canción
         songDB.setName(song.getName());
         songDB.setGenre(song.getGenre());
+
+        // Guardar los cambios en la base de datos
         songRepository.save(songDB);
     }
 
@@ -92,12 +105,10 @@ public class SongServiceImp implements SongService {
                                                                                    // usuario
     }
 
-    public SongResponseDTO getSongById(Long songId) {
+    @Override
+    public Song getSongById(Long songId) throws RuntimeException {
         return songRepository.findById(songId)
-                .map(song -> new SongResponseDTO(
-                        song.getId(),
-                        song.getName(),
-                        song.getGenre()))
-                .orElse(null); // Retorna null si no se encuentra la canción
+                .orElseThrow(() -> new RuntimeException("Canción no encontrada"));
     }
+
 }

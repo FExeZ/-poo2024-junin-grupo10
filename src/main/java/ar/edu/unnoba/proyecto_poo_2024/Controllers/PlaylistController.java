@@ -2,7 +2,7 @@ package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
 import ar.edu.unnoba.proyecto_poo_2024.Dto.PlaylistDetailDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.PlaylistSummaryDTO;
-import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdatePlaylistRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/playlists")
@@ -19,43 +18,40 @@ public class PlaylistController {
     @Autowired
     PlaylistService playlistService;
 
-    @GetMapping
+    @GetMapping // ENDPOINT PROBADO
     public ResponseEntity<List<PlaylistSummaryDTO>> getAllPlaylists() {
         List<PlaylistSummaryDTO> playlists = playlistService.getAllPlaylists();
         return ResponseEntity.ok(playlists);
     }
 
-    @GetMapping("/details/{playlistId}")
+    @GetMapping("/playlist/{playlistId}/details") // ENDPOINT PROBADO
     public ResponseEntity<PlaylistDetailDTO> getPlaylistDetails(@PathVariable Long playlistId) {
         PlaylistDetailDTO playlistDetail = playlistService.getPlaylistDetails(playlistId);
         return ResponseEntity.ok(playlistDetail);
     }
 
-    @PutMapping("/{playlistId}")
+    @PutMapping("/playlist/{playlistId}/user/{userId}") // ENDPOINT PROBADO
     public ResponseEntity<String> changePlaylistDetails(@PathVariable Long playlistId,
-            @RequestBody String name,
-            @RequestHeader("userId") Long userId) throws AccessDeniedException {
+            @RequestBody UpdatePlaylistRequestDTO requestDTO,
+            @PathVariable Long userId) throws AccessDeniedException {
         try {
-            playlistService.updatePlaylistName(playlistId, name, userId);
+            playlistService.updatePlaylistName(playlistId, requestDTO.getName(), userId);
             return ResponseEntity.ok("Playlist updated successfully");
-        } catch (UnsupportedOperationException e) {
-            // Si el usuario no tiene permisos, respondemos con un error 403 (Forbidden)
+        } catch (AccessDeniedException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Este usuario no es dueño de esta playlist.");
+                    .body("You are not authorized to update this playlist");
         } catch (RuntimeException e) {
-            // En caso de que la playlist no se encuentre
             if (e.getMessage().contains("Playlist not found")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Playlist no encontrada.");
+                        .body("Playlist not found");
             }
-            // En caso de otros errores, responder con un 500
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error interno del servidor.");
+                    .body("Internal server error");
         }
     }
 
-    @DeleteMapping("/{playlistId}")
-    public ResponseEntity<String> deletePlaylist(@PathVariable Long playlistId, @RequestHeader("userId") Long userId) {
+    @DeleteMapping("/user/{userId}/playlist/{playlistId}") // ENDPOINT PROBADO
+    public ResponseEntity<String> deletePlaylist(@PathVariable Long userId, @PathVariable Long playlistId) {
         try {
             playlistService.deletePlaylist(playlistId, userId);
             return ResponseEntity.ok("Playlist eliminada exitosamente.");
@@ -73,41 +69,12 @@ public class PlaylistController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error interno del servidor.");
         }
-
     }
 
-    @PostMapping("/{playlistId}/songs/{songId}")
-    public ResponseEntity<String> addSongToPlaylist(@PathVariable Long playlistId,
-            @PathVariable Long songId,
-            @RequestHeader("userId") Long userId) {
-        try {
-            playlistService.addSongToPlaylist(playlistId, songId, userId);
-            return ResponseEntity.ok("Canción agregada exitosamente a la playlist.");
-        } catch (UnsupportedOperationException e) {
-            // Si el usuario no tiene permisos, respondemos con un error 403 (Forbidden)
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Este usuario no es dueño de esta playlist.");
-        } catch (RuntimeException e) {
-            // En caso de que la playlist no se encuentre
-            if (e.getMessage().contains("Playlist not found")) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Playlist no encontrada.");
-            }
-            // En caso de que la canción no se encuentre
-            if (e.getMessage().contains("Song not found")) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Canción no encontrada.");
-            }
-            // En caso de otros errores, responder con un 500
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error interno del servidor.");
-        }
-    }
-
-    @DeleteMapping("/{playlistId}/songs/{songId}")
+    @DeleteMapping("/playlist/{playlistId}/song/{songId}/user/{userId}") // ENDPOINT PROBADO
     public ResponseEntity<String> deleteSongFromPlaylist(@PathVariable Long playlistId,
             @PathVariable Long songId,
-            @RequestHeader("userId") Long userId) {
+            @PathVariable Long userId) {
         try {
             playlistService.deleteSongFromPlaylist(playlistId, songId, userId);
             return ResponseEntity.ok("Canción eliminada exitosamente de la playlist.");
@@ -133,8 +100,8 @@ public class PlaylistController {
 
     }
 
-    @GetMapping("/me/playlists")
-    public ResponseEntity<?> getCurrentUserPlaylists(@RequestHeader("userId") Long userId) {
+    @GetMapping("/user/{userId}/CurrentPlaylists") // ENDPOINT PROBADO
+    public ResponseEntity<?> getCurrentUserPlaylists(@PathVariable Long userId) {
         try {
             // Obtener las playlists del usuario
             List<PlaylistSummaryDTO> playlists = playlistService.getPlaylistsByUser(userId);
