@@ -7,6 +7,7 @@ import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import java.util.List;
 
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
 
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,7 @@ public interface SongService {
     List<Song> getCreatedSongsByUser(Long userId);
 
     Song getSongById(Long songId);
+
+    List<Song> getFilteredSongs(String artist, Genre genre);
 
 }

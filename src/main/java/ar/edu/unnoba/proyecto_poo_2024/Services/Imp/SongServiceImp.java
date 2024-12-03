@@ -3,6 +3,7 @@ package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.*;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.PlaylistRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
@@ -109,6 +110,18 @@ public class SongServiceImp implements SongService {
     public Song getSongById(Long songId) throws RuntimeException {
         return songRepository.findById(songId)
                 .orElseThrow(() -> new RuntimeException("Canción no encontrada"));
+    }
+
+    public List<Song> getFilteredSongs(String artist, Genre genre) {
+        if (artist != null && genre != null) {
+            return songRepository.findByMusicArtistUser_ArtisticNameAndGenre(artist, genre);
+        } else if (artist != null) {
+            return songRepository.findByMusicArtistUser_ArtisticName(artist);
+        } else if (genre != null) {
+            return songRepository.findByGenre(genre);
+        } else {
+            return songRepository.findAll();
+        }
     }
 
 }
