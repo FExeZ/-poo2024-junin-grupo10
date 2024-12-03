@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-
 import ar.edu.unnoba.proyecto_poo_2024.Dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateArtistRequestDto;
 import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
@@ -22,6 +21,7 @@ public class MusicArtistUserController {
     @Autowired
     AuthenticationService authenticationService;
 
+    @SuppressWarnings("null")
     @PostMapping("/registrar")
     public ResponseEntity<?> createOneUser(@RequestBody CreateArtistRequestDto userDto) {
         ModelMapper modelMapper = new ModelMapper();
@@ -34,6 +34,7 @@ public class MusicArtistUserController {
         }
     }
 
+    @SuppressWarnings("null")
     @PutMapping("/{id}")
     public ResponseEntity<MusicArtistUser> updateMusicArtistUser(@PathVariable Long id,
             @RequestBody CreateArtistRequestDto MusicArtistUserDetails)
@@ -52,6 +53,7 @@ public class MusicArtistUserController {
         }
     }
 
+    @SuppressWarnings("null")
     @PostMapping(path = "/auth", produces = "application/json")
     public ResponseEntity<?> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
         ModelMapper modelMapper = new ModelMapper();

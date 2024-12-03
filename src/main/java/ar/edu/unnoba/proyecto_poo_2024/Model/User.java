@@ -1,10 +1,7 @@
 package ar.edu.unnoba.proyecto_poo_2024.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.List;
 
 @Entity
@@ -24,10 +21,7 @@ public abstract class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Aquí está el lado no dueño de la
-                                                                                     // relación
-    // el cascade es para que por ejemplo cuando se borre un user entonces se borren
-    // las playlists asociadas
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Playlist> playlists;
 
     public abstract boolean canCreateSong();

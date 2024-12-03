@@ -5,6 +5,7 @@ import ar.edu.unnoba.proyecto_poo_2024.Model.User;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.MusicEnthusiastUserRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.MusicEnthusiastUserService;
 import ar.edu.unnoba.proyecto_poo_2024.Util.PasswordEncoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

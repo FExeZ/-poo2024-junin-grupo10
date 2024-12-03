@@ -22,6 +22,7 @@ public class MusicEnthusiastUserController {
     @Autowired
     AuthenticationService authenticationService;
 
+    @SuppressWarnings("null")
     @PostMapping("/registrar")
     public ResponseEntity<?> createOneUser(@RequestBody CreateEnthusiastRequestDto userDto) {
         ModelMapper modelMapper = new ModelMapper();
@@ -34,6 +35,7 @@ public class MusicEnthusiastUserController {
         }
     }
 
+    @SuppressWarnings("null")
     @PutMapping("/{id}")
     public ResponseEntity<MusicEnthusiastUser> updateMusicEnthusiastUser(@PathVariable Long id,
             @RequestBody CreateEnthusiastRequestDto MusicEnthusiastUserDetails)
@@ -53,6 +55,7 @@ public class MusicEnthusiastUserController {
         }
     }
 
+    @SuppressWarnings("null")
     @PostMapping(path = "/auth", produces = "application/json")
     public ResponseEntity<?> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
         ModelMapper modelMapper = new ModelMapper();
