@@ -4,9 +4,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import ar.edu.unnoba.proyecto_poo_2024.Dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateArtistRequestDto;
 import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
@@ -56,15 +60,21 @@ public class MusicArtistUserController {
     @SuppressWarnings("null")
     @PostMapping(path = "/auth", produces = "application/json")
     public ResponseEntity<?> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        MusicArtistUser musicArtistUser = modelMapper.map(authenticationRequestDTO, MusicArtistUser.class);
+        // Verificar que el usuario es un "artista"
+        if (authenticationRequestDTO.getUserType() == null || !authenticationRequestDTO.getUserType().equals("artist")) {
+            return new ResponseEntity<>("Tipo de usuario incorrecto para este endpoint", HttpStatus.BAD_REQUEST);
+        }
+
         try {
+            ModelMapper modelMapper = new ModelMapper();
+            MusicArtistUser musicArtistUser = modelMapper.map(authenticationRequestDTO, MusicArtistUser.class);
             String token = authenticationService.authenticate(musicArtistUser);
-            MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-            multiValueMap.add("token", token);
-            return new ResponseEntity<>(token, null, HttpStatus.OK);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
     }
+
+
+
 }

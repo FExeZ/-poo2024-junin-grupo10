@@ -21,13 +21,24 @@ public class AuthenticationServiceImp implements AuthenticationService {
 
     @Override
     public String authenticate(User user) throws Exception {
+        // Busca al usuario por nombre de usuario
         User userDB = userService.findByUsername(user.getUsername());
         if (userDB == null) {
             throw new Exception("Usuario no encontrado en la base de datos.");
         }
+        
+        // Verifica si el tipo de usuario coincide con el tipo esperado
+        if (user.getClass() != userDB.getClass()) {
+            throw new Exception("Tipo de usuario incorrecto.");
+        }
+
+        // Verifica la contraseña
         if (!passwordEncoder.verify(user.getPassword(), userDB.getPassword())) {
             throw new Exception("Contraseña incorrecta.");
         }
+        
+        // Genera y retorna el token JWT si todo es válido
         return jwtTokenUtil.generateToken(user.getUsername());
     }
+
 }

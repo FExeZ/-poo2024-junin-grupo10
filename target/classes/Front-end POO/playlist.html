@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist</title>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    .dropdown-toggle::after {
+      display: none; /* Esto oculta la flecha */
+    }
+  
+    body {
+      background-color: #2a314e; /* Cambia el color de fondo aquí */
+    }
+  
+    .navbar .logo-container img {
+      filter: none; /* Elimina cualquier filtro que afecte el color de la imagen */
+    }
+
+    .playlist-container {
+            background-color: #161b2f;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            height: 100%;
+        }
+
+        .playlist-container h3 {
+            color: #9d0d78;
+            font-size: 1.25rem;
+        }
+
+        .playlist-container p {
+            font-size: 0.9rem;
+        }
+
+        .playlist-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .playlist-container ul li {
+            color: #ffffff;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .playlist-container ul li a {
+            color: #9d0d78;
+            text-decoration: none;
+        }
+
+        .playlist-container ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-playlist {
+            background-color: #9d0d78;
+            color: #ffffff;
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease; /* Suaviza la transición del color */
+        }
+
+        .btn-playlist:hover {
+            background-color: #7a0a5f; /* Cambia este color al que prefieras */
+            color: #ffffff; /* Mantén el color del texto blanco */
+        }
+  </style>
+</head>
+<body>
+  
+  
+ 
+  
+  <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #161b2f;">
+    <div class="container-fluid">
+        <a class="navbar-brand logo-container" href="index.html">
+            <img src="img/logo-1.jpg" height="50" class="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span><i class="bi bi-list nav-icon" style="font-size: 1.8rem; color: #9d0d78;"></i></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">   
+            </ul>
+            <!-- Contenedor para alinear el usuario a la derecha en móvil -->
+            <div class="d-flex justify-content-end w-100">
+                <div class="flex-shrink-0 dropdown">
+                    <a href="#" class="link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" style="color: #9d0d78;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" fill="#6496d7" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </a>
+                    <ul class="dropdown-menu text-small dropdown-menu-end">
+                        <li><a class="dropdown-item" href="playlist.html" style="color: #9d0d78;">Playlist</a></li>
+                        <li><a class="dropdown-item" href="canciones.html" style="color: #9d0d78;">Canciones</a></li>
+                        <li><a class="dropdown-item" href="miCuenta.html" style="color: #9d0d78;">Mi Cuenta</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" style="color: #9d0d78;">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+  
+
+<!-- Carousel -->
+ 
+  <section class="mt-5" style="background-color: #6496d7;">
+      <div class="container px-4 py-5">
+           <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html" style="color: black;">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: black;">Playlist</li>
+              </ol>
+          </nav>
+      <h1 class="display-6 text-se" style="color: black;">Playlist</h1>
+    </div>
+  </section>
+    
+ <!-- +++++++++++++++++++++++++++++++++++++++ -->
+ <div class="container px-4 py-5"  id="icon-grid">
+ <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+  <div class="col">
+      <div class="playlist-container">
+          <h3>Playlist 1</h3>
+          <p>Descripción breve.</p>
+          <ul>
+              <li><a href="#">Editar</a></li>
+              <li><a href="#">Eliminar</a></li>
+          </ul>
+
+          <h4>Canciones</h4>
+          <ul>
+              <li>Canción A <a href="#">Quitar</a></li>
+              <li>Canción B <a href="#">Quitar</a></li>
+          </ul>
+
+          <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
+      </div>
+  </div>
+
+  <div class="col">
+      <div class="playlist-container">
+          <h3>Playlist 2</h3>
+          <p>Descripción breve.</p>
+          <ul>
+              <li><a href="#">Editar</a></li>
+              <li><a href="#">Eliminar</a></li>
+          </ul>
+
+          <h4>Canciones</h4>
+          <ul>
+              <li>Canción C <a href="#">Quitar</a></li>
+              <li>Canción D <a href="#">Quitar</a></li>
+          </ul>
+
+          <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
+      </div>
+  </div>
+
+  <div class="col">
+      <div class="playlist-container">
+          <h3>Playlist 3</h3>
+          <p>Descripción breve.</p>
+          <ul>
+              <li><a href="#">Editar</a></li>
+              <li><a href="#">Eliminar</a></li>
+          </ul>
+
+          <h4>Canciones</h4>
+          <ul>
+              <li>Canción E <a href="#">Quitar</a></li>
+              <li>Canción F <a href="#">Quitar</a></li>
+          </ul>
+
+          <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
+      </div>
+  </div>
+
+  <div class="col">
+      <div class="playlist-container">
+          <h3>Playlist 4</h3>
+          <p>Descripción breve.</p>
+          <ul>
+              <li><a href="#">Editar</a></li>
+              <li><a href="#">Eliminar</a></li>
+          </ul>
+
+          <h4>Canciones</h4>
+          <ul>
+              <li>Canción G <a href="#">Quitar</a></li>
+              <li>Canción H <a href="#">Quitar</a></li>
+          </ul>
+
+        <!-- Modificar los botones de Agregar Canción -->
+        <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
+      </div>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">Crear Nueva Playlist</a>
+</div>
+</div>
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++ modal agregar cancion  -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="addSongModal" tabindex="-1" aria-labelledby="addSongModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> <!-- Añadida clase para centrar -->
+    <div class="modal-content" style="background-color: #161b2f; color: white; border-radius: 15px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addSongModalLabel">Agregar Canción a la playlist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+      </div>
+      <div class="modal-body">
+        <label for="songSelect" class="form-label">Selecciona una canción:</label>
+        <select id="songSelect" class="form-select" style="background-color: #2a314e; color: white; border: none;">
+          <option value="cancion1">Canción 1</option>
+          <option value="cancion2">Canción 2</option>
+          <option value="cancion3">Canción 3</option>
+          <option value="cancion4">Canción 4</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-playlist">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++  -->
+  <!-- Modal para crear Playlist -->
+<div class="modal fade" id="createPlaylistModal" tabindex="-1" aria-labelledby="createPlaylistModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #161b2f; color: white; border-radius: 15px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createPlaylistModalLabel">Crear Playlist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="playlistTitle" class="form-label">Título:</label>
+          <input type="text" class="form-control" id="playlistTitle" placeholder="Ingrese el título de la playlist" style="background-color: #2a314e; color: white; border: none;" required>
+        </div>
+        <div class="mb-3">
+          <label for="playlistDescription" class="form-label">Descripción:</label>
+          <textarea class="form-control" id="playlistDescription" placeholder="Ingrese una descripción" style="background-color: #2a314e; color: white; border: none;" rows="3" required></textarea>
+        </div>
+        <label for="songSelect" class="form-label">Selecciona una canción:</label>
+        <select id="songSelect" class="form-select" style="background-color: #2a314e; color: white; border: none;">
+          <option value="cancion1">Canción 1</option>
+          <option value="cancion2">Canción 2</option>
+          <option value="cancion3">Canción 3</option>
+          <option value="cancion4">Canción 4</option>
+        </select>
+        <button type="button" class="btn btn-link" id="addMoreSongsBtn" style="color: white;">Agregar otra canción</button>
+        <div id="additionalSongs"></div> <!-- Para agregar más canciones -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-playlist">Crear Playlist</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  
+  <!-- ++++++++++++++++++++++++++++++++++++++++ Footer  -->
+
+    <div class="container px-4 py-5">
+   <div class="container">
+    <hr style="border: 2px solid #000000;">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      </a>
+      <span class="mb-3 mb-md-0 " style="color: black;">© 2025 App POO music.</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul>
+  </footer>
+</div>
+  </div>
+
+
+<!-- <script src="Conexion-JS/playlist-get.js"></script> -->
+  
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js" ></script>
+<!-- Script para agregar más canciones -->
+<script>
+  document.getElementById('addMoreSongsBtn').addEventListener('click', function() {
+    const additionalSongsDiv = document.getElementById('additionalSongs');
+    const newSelect = document.createElement('select');
+    newSelect.className = 'form-select mb-2';
+    newSelect.style = 'background-color: #2a314e; color: white; border: none;';
+    newSelect.innerHTML = `
+      <option value="cancion1">Canción 1</option>
+      <option value="cancion2">Canción 2</option>
+      <option value="cancion3">Canción 3</option>
+      <option value="cancion4">Canción 4</option>
+    `;
+    additionalSongsDiv.appendChild(newSelect);
+  });
+</script>
+
+
+</body>
+</html>
