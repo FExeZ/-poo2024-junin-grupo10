@@ -1,40 +1,46 @@
-// Esto lo podrías poner en un archivo JS que se cargue en tu página de playlists
-const userId = 1; // Cambia esto por el ID real del usuario si es necesario
+document.addEventListener("DOMContentLoaded", () => {
+    const playlistsContainer = document.getElementById("playlistsContainer");
 
-function getPlaylists() {
-  fetch(`/playlists/user/${userId}/CurrentPlaylists`)
-    .then(response => response.json())
-    .then(playlists => {
-      // Aquí llenamos el HTML con las playlists
-      const playlistContainer = document.getElementById('icon-grid');
-      playlistContainer.innerHTML = ''; // Limpiamos cualquier contenido previo
-      playlists.forEach(playlist => {
-        const playlistCard = document.createElement('div');
-        playlistCard.classList.add('col');
-        
-        playlistCard.innerHTML = `
-          <div class="playlist-container">
-            <h3>${playlist.name}</h3>
-            <p>${playlist.description || 'Descripción breve.'}</p>
-            <ul>
-              <li><a href="#">Editar</a></li>
-              <li><a href="#">Eliminar</a></li>
-            </ul>
+    // Obtener el token desde localStorage
+    const token = localStorage.getItem("token");
 
-            <h4>Canciones</h4>
-            <ul>
-              ${playlist.songs.map(song => `<li>${song.title} <a href="#">Quitar</a></li>`).join('')}
-            </ul>
+    // Verificar si el token existe en localStorage
+    if (!token) {
+        alert("No estás autenticado. Redirigiendo al inicio de sesión.");
+        window.location.href = "login.html";  // O redirige según tu flujo de inicio de sesión
+        return;  // Si no hay token, terminar la ejecución
+    }
 
-            <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
-          </div>
-        `;
-        
-        playlistContainer.appendChild(playlistCard);
-      });
+    // Hacer la solicitud al backend con el token en el header Authorization
+    fetch("http://localhost:8080/playlists/user/playlists", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`  // Asegúrate de que el token se pasa correctamente
+        }
     })
-    .catch(error => console.error('Error al obtener las playlists:', error));
-}
-
-// Llamamos a la función para cargar las playlists cuando la página se cargue
-document.addEventListener('DOMContentLoaded', getPlaylists);
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al obtener las playlists");
+        }
+        return response.json();
+    })
+    .then(playlists => {
+        playlistsContainer.innerHTML = ""; // Limpiar antes de agregar nuevas playlists
+        playlists.forEach(playlist => {
+            const playlistElement = document.createElement("div");
+            playlistElement.classList.add("col");
+            playlistElement.innerHTML = `
+                <div class="playlist-container">
+                    <h3>${playlist.name}</h3>
+                    <button class="btn btn-playlist" onclick="viewPlaylistDetails(${playlist.id})">Ver detalles</button>
+                </div>
+            `;
+            playlistsContainer.appendChild(playlistElement);
+        });
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Hubo un problema al cargar las playlists.");
+    });
+});

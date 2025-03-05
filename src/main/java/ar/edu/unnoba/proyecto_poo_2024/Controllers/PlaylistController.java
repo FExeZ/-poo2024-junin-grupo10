@@ -11,19 +11,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.unnoba.proyecto_poo_2024.Dto.PlaylistDetailDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.PlaylistSummaryDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdatePlaylistRequestDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Model.User;
+import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.PlaylistService;
+import ar.edu.unnoba.proyecto_poo_2024.Util.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/playlists")
 public class PlaylistController {
+
+    @Autowired  // 🔹 Esto inyecta JwtTokenUtil
+    JwtTokenUtil jwtTokenUtil;
+
     @Autowired
     PlaylistService playlistService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping // ENDPOINT PROBADO
     public ResponseEntity<List<PlaylistSummaryDTO>> getAllPlaylists() {
@@ -107,27 +118,39 @@ public class PlaylistController {
 
     }
 
-    @GetMapping("/user/{userId}/CurrentPlaylists") // ENDPOINT PROBADO
-    public ResponseEntity<?> getCurrentUserPlaylists(@PathVariable Long userId) {
+    @GetMapping("/user/playlists")
+    public ResponseEntity<?> getCurrentUserPlaylists(@RequestHeader("Authorization") String token) {
         try {
-            // Obtener las playlists del usuario
-            List<PlaylistSummaryDTO> playlists = playlistService.getPlaylistsByUser(userId);
+            if (token == null || !token.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token no válido o ausente.");
+            }
 
-            // Si el usuario no tiene playlists, devolver 404
+            // Extraer el username desde el token JWT
+            String username = jwtTokenUtil.getSubject(token);
+
+            if (username == null || username.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.");
+            }
+
+            // Buscar el usuario por su username
+            User user = userRepository.findByUsername(username)
+                                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            // Obtener las playlists del usuario
+            List<PlaylistSummaryDTO> playlists = playlistService.getPlaylistsByUser(user.getId());
+
             if (playlists.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No playlists found for this user.");
             }
+
             return ResponseEntity.ok(playlists);
-        } catch (UnsupportedOperationException e) {
-            // Si el usuario no tiene acceso o permisos suficientes
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("User is not authorized to access this resource.");
-        } catch (RuntimeException e) {
-            // En caso de otros errores generales
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while retrieving the playlists.");
+                    .body("Error al recuperar las playlists: " + e.getMessage());
         }
     }
+
+
 
 }

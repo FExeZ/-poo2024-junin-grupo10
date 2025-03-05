@@ -26,7 +26,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
         if (userDB == null) {
             throw new Exception("Usuario no encontrado en la base de datos.");
         }
-        
+
         // Verifica si el tipo de usuario coincide con el tipo esperado
         if (user.getClass() != userDB.getClass()) {
             throw new Exception("Tipo de usuario incorrecto.");
@@ -36,9 +36,10 @@ public class AuthenticationServiceImp implements AuthenticationService {
         if (!passwordEncoder.verify(user.getPassword(), userDB.getPassword())) {
             throw new Exception("Contraseña incorrecta.");
         }
-        
-        // Genera y retorna el token JWT si todo es válido
-        return jwtTokenUtil.generateToken(user.getUsername());
+
+        // Genera y retorna el token JWT si todo es válido, incluyendo el userId
+        return jwtTokenUtil.generateToken(user.getUsername(), userDB.getId()); // Asegúrate de tener un método getId() en el modelo User
     }
+
 
 }

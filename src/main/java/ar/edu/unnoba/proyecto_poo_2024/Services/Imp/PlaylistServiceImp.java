@@ -1,5 +1,12 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 
+import java.nio.file.AccessDeniedException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ar.edu.unnoba.proyecto_poo_2024.Dto.PlaylistDetailDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.PlaylistSummaryDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
@@ -7,12 +14,6 @@ import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.PlaylistRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.PlaylistService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.nio.file.AccessDeniedException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PlaylistServiceImp implements PlaylistService {
@@ -28,6 +29,7 @@ public class PlaylistServiceImp implements PlaylistService {
         playlistRepository.save(playlist);
     }
 
+    @Override
     public List<PlaylistSummaryDTO> getAllPlaylists() {
         // Obtener todas las playlists y mapearlas a DTO con nombre y cantidad de
         // canciones
@@ -40,6 +42,7 @@ public class PlaylistServiceImp implements PlaylistService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public PlaylistDetailDTO getPlaylistDetails(Long playlistId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new RuntimeException("Playlist not found"));

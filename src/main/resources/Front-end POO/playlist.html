@@ -118,104 +118,29 @@
   
 
 <!-- Carousel -->
- 
-  <section class="mt-5" style="background-color: #6496d7;">
-      <div class="container px-4 py-5">
-           <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html" style="color: black;">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page" style="color: black;">Playlist</li>
-              </ol>
-          </nav>
+<section class="mt-5" style="background-color: #6496d7;">
+  <div class="container px-4 py-5">
+      <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html" style="color: black;">Inicio</a></li>
+              <li class="breadcrumb-item active" aria-current="page" style="color: black;">Playlist</li>
+          </ol>
+      </nav>
       <h1 class="display-6 text-se" style="color: black;">Playlist</h1>
-    </div>
-  </section>
-    
- <!-- +++++++++++++++++++++++++++++++++++++++ -->
- <div class="container px-4 py-5"  id="icon-grid">
- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-  <div class="col">
-      <div class="playlist-container">
-          <h3>Playlist 1</h3>
-          <p>Descripción breve.</p>
-          <ul>
-              <li><a href="#">Editar</a></li>
-              <li><a href="#">Eliminar</a></li>
-          </ul>
+  </div>
+</section>
 
-          <h4>Canciones</h4>
-          <ul>
-              <li>Canción A <a href="#">Quitar</a></li>
-              <li>Canción B <a href="#">Quitar</a></li>
-          </ul>
-
-          <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
-      </div>
+<!-- +++++++++++++++++++++++++++++++++++++++ -->
+<div class="container px-4 py-5" id="icon-grid">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="playlistsContainer">
+      <!-- Las playlists serán inyectadas aquí mediante JavaScript -->
   </div>
 
-  <div class="col">
-      <div class="playlist-container">
-          <h3>Playlist 2</h3>
-          <p>Descripción breve.</p>
-          <ul>
-              <li><a href="#">Editar</a></li>
-              <li><a href="#">Eliminar</a></li>
-          </ul>
-
-          <h4>Canciones</h4>
-          <ul>
-              <li>Canción C <a href="#">Quitar</a></li>
-              <li>Canción D <a href="#">Quitar</a></li>
-          </ul>
-
-          <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
-      </div>
-  </div>
-
-  <div class="col">
-      <div class="playlist-container">
-          <h3>Playlist 3</h3>
-          <p>Descripción breve.</p>
-          <ul>
-              <li><a href="#">Editar</a></li>
-              <li><a href="#">Eliminar</a></li>
-          </ul>
-
-          <h4>Canciones</h4>
-          <ul>
-              <li>Canción E <a href="#">Quitar</a></li>
-              <li>Canción F <a href="#">Quitar</a></li>
-          </ul>
-
-          <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
-      </div>
-  </div>
-
-  <div class="col">
-      <div class="playlist-container">
-          <h3>Playlist 4</h3>
-          <p>Descripción breve.</p>
-          <ul>
-              <li><a href="#">Editar</a></li>
-              <li><a href="#">Eliminar</a></li>
-          </ul>
-
-          <h4>Canciones</h4>
-          <ul>
-              <li>Canción G <a href="#">Quitar</a></li>
-              <li>Canción H <a href="#">Quitar</a></li>
-          </ul>
-
-        <!-- Modificar los botones de Agregar Canción -->
-        <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
-      </div>
+  <div class="text-center mt-4">
+      <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">Crear Nueva Playlist</a>
   </div>
 </div>
 
-<div class="text-center mt-4">
-  <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">Crear Nueva Playlist</a>
-</div>
-</div>
 
   <!-- ++++++++++++++++++++++++++++++++++++++++ modal agregar cancion  -->
 
@@ -306,8 +231,9 @@
 </div>
   </div>
 
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 
-<!-- <script src="Conexion-JS/playlist-get.js"></script> -->
+<script type="module" src="Conexion-JS/playlist-get.js"></script>
   
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

@@ -1,20 +1,21 @@
 package ar.edu.unnoba.proyecto_poo_2024.Services.Imp;
 
-import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
-import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
-import ar.edu.unnoba.proyecto_poo_2024.Model.*;
-import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
-import ar.edu.unnoba.proyecto_poo_2024.Repository.PlaylistRepository;
-import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
-import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
-import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
+import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
+import ar.edu.unnoba.proyecto_poo_2024.Model.User;
+import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
+import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
+import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
 
 @Service
 public class SongServiceImp implements SongService {
@@ -25,8 +26,8 @@ public class SongServiceImp implements SongService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    PlaylistRepository playlistRepository;
+    /* @Autowired
+    PlaylistRepository playlistRepository; */
 
     @Override
     public void createSong(User user, CreateSongRequestDTO song) {
@@ -88,6 +89,7 @@ public class SongServiceImp implements SongService {
         return songRepository.findAll();
     }
 
+    @Override
     public List<Song> getCreatedSongsByUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("El usuario no existe."));
@@ -100,6 +102,7 @@ public class SongServiceImp implements SongService {
         return songRepository.findAllByMusicArtistUserId(userId);
     }
 
+    @Override
     public Song findById(Long SongId) {
         return songRepository.findById(SongId)
                 .orElseThrow(() -> new RuntimeException("Cancion no encontrada")); // Maneja el caso de no encontrar al
@@ -112,6 +115,7 @@ public class SongServiceImp implements SongService {
                 .orElseThrow(() -> new RuntimeException("Canción no encontrada"));
     }
 
+    @Override
     public List<Song> getFilteredSongs(String artist, Genre genre) {
         if (artist != null && genre != null) {
             return songRepository.findByMusicArtistUser_ArtisticNameAndGenre(artist, genre);
