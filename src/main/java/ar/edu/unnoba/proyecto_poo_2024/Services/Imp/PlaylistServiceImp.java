@@ -31,16 +31,17 @@ public class PlaylistServiceImp implements PlaylistService {
 
     @Override
     public List<PlaylistSummaryDTO> getAllPlaylists() {
-        // Obtener todas las playlists y mapearlas a DTO con nombre y cantidad de
-        // canciones
+        // Obtener todas las playlists y mapearlas a DTO con nombre, cantidad de canciones y el ID
         return playlistRepository.findAll()
                 .stream()
                 .map(playlist -> new PlaylistSummaryDTO(
+                        playlist.getId(),  // Aquí agregamos el ID
                         playlist.getName(),
-                        playlist.getSongs().size() // Contamos las canciones en la playlist
+                        playlist.getSongs().size()  // Contamos las canciones en la playlist
                 ))
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public PlaylistDetailDTO getPlaylistDetails(Long playlistId) {
@@ -136,10 +137,10 @@ public class PlaylistServiceImp implements PlaylistService {
         // Mapear las playlists a DTOs para la respuesta
         return playlists.stream()
                 .map(playlist -> new PlaylistSummaryDTO(
+                        playlist.getId(),  // Incluir el ID
                         playlist.getName(),
-                        playlist.getSongs().size() // Contamos las canciones en la playlist
+                        playlist.getSongs().size()  // Contamos las canciones en la playlist
                 ))
                 .collect(Collectors.toList());
     }
-
 }

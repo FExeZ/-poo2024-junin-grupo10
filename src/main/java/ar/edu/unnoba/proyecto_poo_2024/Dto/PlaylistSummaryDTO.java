@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PlaylistSummaryDTO {
+    private Long id;         // Agregar el campo id
     private String name;
     private int songCount;
 }

@@ -150,7 +150,4 @@ public class PlaylistController {
                     .body("Error al recuperar las playlists: " + e.getMessage());
         }
     }
-
-
-
 }
