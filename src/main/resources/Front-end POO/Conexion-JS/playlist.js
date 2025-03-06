@@ -1,3 +1,5 @@
+//Funcion para ver las playlists del usuario activo
+
 document.addEventListener("DOMContentLoaded", () => {
     const playlistsContainer = document.getElementById("playlistsContainer");
 

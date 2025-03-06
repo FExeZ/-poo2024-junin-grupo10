@@ -46,9 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Guarda el token y el tipo de usuario
+            // Guarda el token y el tipo de usuario en localStorage
             localStorage.setItem("token", token);
-            localStorage.setItem("userType", userType); // Guarda el tipo de usuario
+            localStorage.setItem("userType", userType);
+
+            // 🔹 Nueva petición para obtener el userId y guardarlo en localStorage
+            const userResponse = await fetch("http://localhost:8080/users/me", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!userResponse.ok) {
+                throw new Error("Error al obtener la información del usuario");
+            }
+
+            const userData = await userResponse.json();
+            localStorage.setItem("userId", userData.id); // Guarda el userId
 
             alert("Inicio de sesión exitoso");
             window.location.href = "index.html"; // Redirige a la página principal
