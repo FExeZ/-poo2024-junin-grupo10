@@ -134,46 +134,14 @@
 <div class="container px-4 py-5" id="icon-grid">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="playlistsContainer">
       <!-- Las playlists serán inyectadas aquí mediante JavaScript -->
-
-      
   </div>
 
   <div class="text-center mt-4">
-      <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">Crear Nueva Playlist</a>
+      <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">Nueva Playlist</a>
   </div>
 </div>
 
-
-  <!-- ++++++++++++++++++++++++++++++++++++++++ modal agregar cancion  -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="addSongModal" tabindex="-1" aria-labelledby="addSongModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered"> <!-- Añadida clase para centrar -->
-    <div class="modal-content" style="background-color: #161b2f; color: white; border-radius: 15px;">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addSongModalLabel">Agregar Canción a la playlist</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
-      </div>
-      <div class="modal-body">
-        <label for="songSelect" class="form-label">Selecciona una canción:</label>
-        <select id="songSelect" class="form-select" style="background-color: #2a314e; color: white; border: none;">
-          <option value="cancion1">Canción 1</option>
-          <option value="cancion2">Canción 2</option>
-          <option value="cancion3">Canción 3</option>
-          <option value="cancion4">Canción 4</option>
-        </select>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-playlist">Agregar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- ++++++++++++++++++++++++++++++++++++++++  -->
-  <!-- Modal para crear Playlist -->
+<!-- Modal para crear Playlist -->
 <div class="modal fade" id="createPlaylistModal" tabindex="-1" aria-labelledby="createPlaylistModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="background-color: #161b2f; color: white; border-radius: 15px;">
@@ -186,30 +154,16 @@
           <label for="playlistTitle" class="form-label">Título:</label>
           <input type="text" class="form-control" id="playlistTitle" placeholder="Ingrese el título de la playlist" style="background-color: #2a314e; color: white; border: none;" required>
         </div>
-        <div class="mb-3">
-          <label for="playlistDescription" class="form-label">Descripción:</label>
-          <textarea class="form-control" id="playlistDescription" placeholder="Ingrese una descripción" style="background-color: #2a314e; color: white; border: none;" rows="3" required></textarea>
-        </div>
-        <label for="songSelect" class="form-label">Selecciona una canción:</label>
-        <select id="songSelect" class="form-select" style="background-color: #2a314e; color: white; border: none;">
-          <option value="cancion1">Canción 1</option>
-          <option value="cancion2">Canción 2</option>
-          <option value="cancion3">Canción 3</option>
-          <option value="cancion4">Canción 4</option>
-        </select>
-        <button type="button" class="btn btn-link" id="addMoreSongsBtn" style="color: white;">Agregar otra canción</button>
-        <div id="additionalSongs"></div> <!-- Para agregar más canciones -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-playlist">Crear Playlist</button>
+        <!-- Cambié el tipo de botón a button y le agregué un id para seleccionarlo desde JS -->
+        <button type="button" class="btn btn-playlist" id="createPlaylistBtn">Crear Playlist</button>
       </div>
     </div>
   </div>
 </div>
-  
-  
-  
+
   
   <!-- ++++++++++++++++++++++++++++++++++++++++ Footer  -->
 
@@ -236,6 +190,8 @@
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 
 <script type="module" src="Conexion-JS/playlist.js"></script>
+
+<script src="Conexion-JS/createPlaylist.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

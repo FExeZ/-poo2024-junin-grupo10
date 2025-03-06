@@ -60,6 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+
+/* ------------------------------------------------------------------------------------------------------ */
+
+
 // Función para eliminar una playlist
 function deletePlaylist(event, userId) {
     const playlistId = event.target.getAttribute('data-id');  // Obtener el ID de la playlist
@@ -92,3 +96,8 @@ function deletePlaylist(event, userId) {
         alert('Ocurrió un error inesperado');
     });
 }
+
+
+/* ------------------------------------------------------------------------------------------------------ */
+
+

@@ -1,18 +1,30 @@
 package ar.edu.unnoba.proyecto_poo_2024.Controllers;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreatePlaylistRequestDto;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.NoSuchElementException;
+import ar.edu.unnoba.proyecto_poo_2024.Util.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/users")
@@ -23,6 +35,42 @@ public class UserController {
 
     @Autowired
     SongService songService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String token) {
+        try {
+            // Verificar y decodificar el token JWT
+            String jwtToken = token.startsWith("Bearer ") ? token.substring(7) : token; // Eliminar "Bearer "
+            
+            // Extraer el userId como Long desde el token
+            Long userId = jwtTokenUtil.extractUserId(jwtToken);  // Extraer userId del token
+            
+            if (userId == null) {
+                return new ResponseEntity<>("Usuario no encontrado", HttpStatus.UNAUTHORIZED);
+            }
+
+            // Obtener la información del usuario
+            User user = userService.findById(userId);
+
+            // Si no se encuentra el usuario, devolver 404
+            if (user == null) {
+                return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+            }
+
+            // Devolver los detalles del usuario
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (JWTVerificationException e) {
+            return new ResponseEntity<>("Token inválido", HttpStatus.UNAUTHORIZED);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>("ID de usuario no válido", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al obtener los datos del usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     // obtener todos los usuarios
     @GetMapping // ENDPOINT PROBADO
@@ -41,18 +89,28 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/{userId}/createPlaylist") // ENDPOINT PROBADO
-    public ResponseEntity<?> createUserPlaylist(@PathVariable Long userId,
-            @RequestBody CreatePlaylistRequestDto playlist) {
+    @PostMapping("/user/{userId}/createPlaylist")
+    public ResponseEntity<?> createUserPlaylist(@PathVariable Long userId, 
+                                                @RequestBody CreatePlaylistRequestDto playlist,
+                                                @RequestHeader("Authorization") String token) {
         try {
-            userService.createUserPlaylist(userId, playlist); // Llama al servicio para crear la playlist
-            return new ResponseEntity<>(HttpStatus.CREATED); // Respuesta 201 Created
+            // Verificar si el token es válido
+            if (!jwtTokenUtil.verify(token)) {
+                return new ResponseEntity<>("Token no válido", HttpStatus.UNAUTHORIZED);
+            }
+
+            // Llamar al servicio para crear la playlist
+            userService.createUserPlaylist(userId, playlist); 
+
+            return new ResponseEntity<>(HttpStatus.CREATED);  // Respuesta 201 Created
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // Respuesta 404 Not Found
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);  // 404
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // Respuesta 409 Conflict
+            return new ResponseEntity<>("Error al crear la playlist", HttpStatus.INTERNAL_SERVER_ERROR);  // 500
         }
     }
+
+
 
     @PostMapping("/user/{userId}/createSong") // ENDPOINT PROBADO
     public ResponseEntity<?> createSong(@PathVariable Long userId, @RequestBody CreateSongRequestDTO song) {
