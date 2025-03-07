@@ -7,4 +7,5 @@ import lombok.Data;
 public class CreateSongRequestDTO {
     private String name;
     private Genre genre;
+    private Integer duration;
 }

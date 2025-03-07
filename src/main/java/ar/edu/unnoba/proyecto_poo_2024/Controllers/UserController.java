@@ -112,7 +112,7 @@ public class UserController {
 
 
 
-    @PostMapping("/user/{userId}/createSong") // ENDPOINT PROBADO
+    @PostMapping("/user/{userId}/createSong")
     public ResponseEntity<?> createSong(@PathVariable Long userId, @RequestBody CreateSongRequestDTO song) {
         try {
             // Obtener el usuario por ID
@@ -128,11 +128,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Este usuario no tiene permisos para crear canciones.");
         } catch (Exception e) {
-            // En caso de cualquier otro error, respondemos con un error 500 (Internal
-            // Server Error)
+            // En caso de cualquier otro error, respondemos con un error 500 (Internal Server Error)
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
+
 
     @PutMapping("/user/{userId}/songs/{songId}") // ENDPOINT PROBADO
     public ResponseEntity<?> updateSong(

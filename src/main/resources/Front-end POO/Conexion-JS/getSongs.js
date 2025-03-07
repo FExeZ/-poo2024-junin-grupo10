@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h3>${song.name}</h3>
                         <ul>
                             <li>Genero: ${song.genre}</li>
+                            <li>Duración: ${song.duration} min</li>  <!-- 🔹 Ahora se muestra la duración -->
                             <!-- Puedes agregar más detalles aquí si lo deseas -->
                         </ul>
                         <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Editar</a>

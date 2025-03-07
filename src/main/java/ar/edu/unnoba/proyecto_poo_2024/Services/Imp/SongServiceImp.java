@@ -36,14 +36,26 @@ public class SongServiceImp implements SongService {
             // Si no tiene permisos, lanzamos una excepción
             throw new UnsupportedOperationException("Este usuario no tiene permisos para crear canciones.");
         }
+
         MusicArtistUser musicArtistUser = (MusicArtistUser) user;
         Song newSong = new Song();
         newSong.setName(song.getName());
-        newSong.setGenre((song.getGenre()));
+        newSong.setGenre(song.getGenre());
+
+        // Verificar si duration no es null antes de asignarlo
+        if (song.getDuration() != null) {
+            newSong.setDuration(song.getDuration());
+        } else {
+            // Puedes asignar un valor por defecto si lo deseas
+            newSong.setDuration(0); // o cualquier valor que tenga sentido
+        }
+
         newSong.setMusicArtistUser(musicArtistUser);
-        // Si el usuario tiene permisos, guardamos la canción
+
+        // Guardamos la canción en la base de datos
         songRepository.save(newSong);
     }
+
 
     @Override
     public void deleteSongByIdAndUser(Long songId, Long userId) throws Exception {
