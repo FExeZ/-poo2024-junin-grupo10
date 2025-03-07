@@ -134,22 +134,10 @@
     
  <!-- +++++++++++++++++++++++++++++++++++++++ -->
  <div class="container px-4 py-5"  id="icon-grid">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-     <div class="col">
-         <div class="playlist-container">
-             <h3>Cancion 1</h3>
-             <ul>
-                <li>Genero: Pop</li>
-                <li>Duracion: 4 minutos</li>
-            </ul>
-  
-            <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Editar</a>
-   
-            <a href="#" class="btn btn-playlist">Eliminar</a>
-         </div>
-     </div>
-   
-   </div>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="songListContainer">
+    <!-- Aquí se inyectarán las canciones dinámicamente -->
+  </div>
+
    
    <div class="text-center mt-4">
      <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Crear Nueva Cancion</a>
@@ -177,11 +165,11 @@
             <label for="songGenre" class="form-label">Género:</label>
             <select id="songGenre" class="form-select" style="background-color: #2a314e; color: white !important;; border: none;">
               <option value="">Seleccione el género</option>
-              <option value="rock">Rock</option>
-              <option value="pop">Pop</option>
-              <option value="jazz">Jazz</option>
-              <option value="hiphop">Hip Hop</option>
-              <option value="classical">Clásica</option>
+              <option value="rock">ROCK</option>
+              <option value="pop">TECHNO</option>
+              <option value="jazz">JAZZ</option>
+              <option value="hiphop">FOLK</option>
+              <option value="classical">CLASSICAL</option>
               <!-- Agrega más géneros según sea necesario -->
             </select>
           </div>
@@ -226,6 +214,9 @@
 </div>
   </div>
 
+<script src="Conexion-JS/getSongs.js"></script>
+
+<script src="Conexion-JS/createSongs.js"></script>
 
 <script src="Conexion-JS/logout.js"></script>
   

@@ -38,6 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>${playlist.name}</h3>
                     <button class="edit-btn" data-id="${playlist.id}" data-name="${playlist.name}">Editar</button>
                     <button class="delete-btn" data-id="${playlist.id}">Eliminar</button>
+                    <h4>Canciones</h4>
+                    <ul>
+                        <li>Canción G <a href="#">Quitar</a></li>
+                        <li>Canción H <a href="#">Quitar</a></li>
+                    </ul>
+
+                    <!-- Modificar los botones de Agregar Canción -->
+                    <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
                 </div>
             `;
             playlistsContainer.appendChild(playlistElement);
