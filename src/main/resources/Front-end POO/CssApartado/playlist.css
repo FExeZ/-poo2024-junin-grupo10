@@ -1,0 +1,26 @@
+.edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    padding: 0;
+    display: block;  /* Hace que los botones se coloquen uno debajo del otro */
+    margin-top: 5px; /* Espacio entre los botones */
+    text-decoration: none; /* Quita el subrayado */
+}
+
+.edit-btn {
+    color: green;  /* Color verde para Editar */
+}
+
+.delete-btn {
+    color: red;  /* Color rojo para Eliminar */
+}
+
+.edit-btn:hover {
+    color: darkgreen;  /* Verde más oscuro cuando pasas el ratón */
+}
+
+.delete-btn:hover {
+    color: darkred;  /* Rojo más oscuro cuando pasas el ratón */
+}
