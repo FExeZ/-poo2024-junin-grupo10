@@ -78,23 +78,49 @@ public class SongServiceImp implements SongService {
     }
 
     @Override
-    public void updateSong(Long userId, Long songId, UpdateSongRequestDTO song) throws Exception {
-        // Buscar la canción en la base de datos
-        Song songDB = songRepository.findById(songId)
-                .orElseThrow(() -> new Exception("Canción no encontrada"));
+public void updateSong(Long userId, Long songId, UpdateSongRequestDTO song) throws Exception {
+    // Buscar la canción en la base de datos
+    Song songDB = songRepository.findById(songId)
+            .orElseThrow(() -> new Exception("❌ Canción no encontrada con ID: " + songId));
 
-        // Verificar si el usuario es el dueño de la canción
-        if (!songDB.getMusicArtistUser().getId().equals(userId)) {
-            throw new Exception("El usuario no es el dueño de esta canción.");
-        }
+    // 🔍 Verificar si la encontró correctamente
+    System.out.println("✅ Canción encontrada: ID=" + songDB.getId() + ", Nombre=" + songDB.getName());
 
-        // Actualizar los datos de la canción
-        songDB.setName(song.getName());
-        songDB.setGenre(song.getGenre());
-
-        // Guardar los cambios en la base de datos
-        songRepository.save(songDB);
+    // Verificar si el usuario es el dueño de la canción
+    if (!songDB.getMusicArtistUser().getId().equals(userId)) {
+        throw new Exception("🚫 El usuario no es el dueño de esta canción.");
     }
+
+    // Validaciones adicionales
+    if (song.getName() == null || song.getName().trim().isEmpty()) {
+        throw new Exception("⚠️ El nombre de la canción no puede ser vacío.");
+    }
+    if (song.getGenre() == null) {
+        throw new Exception("⚠️ El género de la canción no puede ser nulo.");
+    }
+    if (song.getDuration() <= 0) {
+        throw new Exception("⚠️ La duración de la canción debe ser mayor a 0.");
+    }
+
+    // Actualizar los datos de la canción
+    songDB.setName(song.getName());
+    songDB.setGenre(song.getGenre());
+    songDB.setDuration(song.getDuration());
+
+    // 📌 Antes de guardar, verificar si el ID sigue siendo el mismo
+    System.out.println("🛠️ Antes de guardar - ID de la canción: " + songDB.getId());
+
+    // Guardar los cambios en la base de datos
+    songRepository.save(songDB);
+
+    // 📌 Después de guardar, verificar si el ID cambió (si cambió, se creó una nueva canción)
+    System.out.println("✅ Después de guardar - ID de la canción: " + songDB.getId());
+}
+
+
+
+
+
 
     @Override
     public List<Song> getAll() {

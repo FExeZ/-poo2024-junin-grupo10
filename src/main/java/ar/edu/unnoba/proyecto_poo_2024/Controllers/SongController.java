@@ -101,21 +101,25 @@ public class SongController {
         }
     }
 
-    @PutMapping("/{id}") // ENDPOINT PROBADO
+
+    @PutMapping("/user/{userId}/songs/{songId}")
     public ResponseEntity<?> updateSong(
             @PathVariable Long userId,
             @PathVariable Long songId,
             @RequestBody UpdateSongRequestDTO song) {
         try {
+            System.out.println("🔄 Recibida solicitud de actualización - userId: " + userId + ", songId: " + songId);
             songService.updateSong(userId, songId, song);
-            return ResponseEntity.ok("Canción actualizada exitosamente.");
+            return ResponseEntity.ok("✅ Canción actualizada exitosamente.");
         } catch (UnsupportedOperationException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Este usuario no tiene permisos para actualizar canciones.");
+                    .body("🚫 Este usuario no tiene permisos para actualizar canciones.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("❌ Error: " + e.getMessage());
         }
     }
+
+
 
     @GetMapping("/filter") // ENDPOINT PROBADO
     public ResponseEntity<?> getSongs(

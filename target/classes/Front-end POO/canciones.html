@@ -149,48 +149,43 @@
 
 <!-- Modal -->
 <div class="modal fade" id="addSongModal" tabindex="-1" aria-labelledby="addSongModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered"> <!-- Clase para centrar -->
-      <div class="modal-content" style="background-color: #161b2f; color: white; border-radius: 15px;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addSongModalLabel">Agregar/Editar Canción a la playlist</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
-        </div>
-        <div class="modal-body">
-            <div class="mb-3">
-                <label for="songTitle" class="form-label">Título:</label>
-                <input type="text" class="form-control" id="songTitle" placeholder="Ingrese el título de la canción" style="background-color: #2a314e; color: white !important; border: none;" required>
-              </div>
-              
+  <div class="modal-dialog modal-dialog-centered"> <!-- Clase para centrar -->
+    <div class="modal-content" style="background-color: #161b2f; color: white; border-radius: 15px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addSongModalLabel">Agregar/Editar Canción a la playlist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+      </div>
+      <div class="modal-body">
           <div class="mb-3">
-            <label for="songGenre" class="form-label">Género:</label>
-            <select id="songGenre" class="form-select" style="background-color: #2a314e; color: white !important;; border: none;">
-              <option value="">Seleccione el género</option>
-              <option value="ROCK">ROCK</option>
-              <option value="TECHNO">TECHNO</option>
-              <option value="JAZZ">JAZZ</option>
-              <option value="FOLK">FOLK</option>
-              <option value="CLASSICAL">CLASSICAL</option>
-              <!-- Agrega más géneros según sea necesario -->
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="songDuration" class="form-label">Duración (minutos):</label>
-            <input type="number" class="form-control" id="songDuration" placeholder="Ingrese la duración en minutos" style="background-color: #2a314e; color: white; border: none;" required>
-          </div>
+              <label for="songTitle" class="form-label">Título:</label>
+              <input type="text" class="form-control" id="songTitle" placeholder="Ingrese el título de la canción" style="background-color: #2a314e; color: white !important; border: none;" required>
+            </div>
+            
+        <div class="mb-3">
+          <label for="songGenre" class="form-label">Género:</label>
+          <select id="songGenre" class="form-select" style="background-color: #2a314e; color: white !important; border: none;">
+            <option value="">Seleccione el género</option>
+            <option value="ROCK">ROCK</option>
+            <option value="TECHNO">TECHNO</option>
+            <option value="JAZZ">JAZZ</option>
+            <option value="FOLK">FOLK</option>
+            <option value="CLASSICAL">CLASSICAL</option>
+            <!-- Agrega más géneros según sea necesario -->
+          </select>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-playlist" id="saveSongButton">Guardar</button>
+        <div class="mb-3">
+          <label for="songDuration" class="form-label">Duración (minutos):</label>
+          <input type="number" class="form-control" id="songDuration" placeholder="Ingrese la duración en minutos" style="background-color: #2a314e; color: white; border: none;" required>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-playlist" id="saveSongButton">Guardar</button>
       </div>
     </div>
   </div>
-  
-  
-  
-  
-  
-  
+</div>
+
   
   <!-- ++++++++++++++++++++++++++++++++++++++++ Footer  -->
 
@@ -214,9 +209,7 @@
 </div>
   </div>
 
-<script src="Conexion-JS/getSongs.js"></script>
-
-<script src="Conexion-JS/createSongs.js"></script>
+<script src="Conexion-JS/songsCrud.js"></script>
 
 <script src="Conexion-JS/logout.js"></script>
   

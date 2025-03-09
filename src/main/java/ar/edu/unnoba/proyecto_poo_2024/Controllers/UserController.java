@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreatePlaylistRequestDto;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
-import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
 import ar.edu.unnoba.proyecto_poo_2024.Services.UserService;
@@ -134,7 +132,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/user/{userId}/songs/{songId}") // ENDPOINT PROBADO
+    /* @PutMapping("/user/{userId}/songs/{songId}")
     public ResponseEntity<?> updateSong(
             @PathVariable Long userId,
             @PathVariable Long songId,
@@ -148,7 +146,8 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-    }
+    } */
+
 
     @PostMapping("/user/{userId}/playlists/{playlistId}/songs/{songId}") // ENDPOINT PROBADO
     public ResponseEntity<?> addSongToPlaylist(

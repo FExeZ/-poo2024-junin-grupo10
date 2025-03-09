@@ -8,5 +8,6 @@ public class UpdateSongRequestDTO {
 
     private String name;
     private Genre genre;
+    private Integer duration;
 
 }
