@@ -60,24 +60,39 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Log para verificar qué datos se están recibiendo
-    
+                console.log(data); // Verificar qué datos se reciben
+
                 const songList = document.getElementById(`song-list-${playlist.id}`);
-                songList.innerHTML = ''; // Limpiar la lista de canciones antes de agregar nuevas
-    
+                songList.innerHTML = ''; // Limpiar la lista antes de agregar nuevas canciones
+
                 if (data.songNames && data.songNames.length > 0) {
-                    // Si hay canciones, agregarlas a la lista
-                    data.songNames.forEach(songName => {
+                    data.songNames.forEach((song, index) => {
                         const li = document.createElement('li');
-                        li.textContent = songName;
+                        li.textContent = song; // Aquí se asume que song es solo el nombre, necesitas songId
+
+                        // Crear botón "Quitar"
                         const removeLink = document.createElement('a');
                         removeLink.href = "#";
-                        removeLink.textContent = 'Quitar';
+                        removeLink.textContent = ' Quitar';
+                        removeLink.classList.add('remove-song-btn');
+
+                        // Agregar los atributos necesarios
+                        removeLink.setAttribute('data-song-id', data.songIds[index]); // Se necesita un array de IDs en el DTO
+                        removeLink.setAttribute('data-playlist-id', playlist.id);
+                        removeLink.setAttribute('data-user-id', userId);
+
+                        // Asignar evento al botón
+                        removeLink.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            const songId = event.target.getAttribute('data-song-id');
+                            deleteSongFromPlaylist(playlist.id, songId); // ✅ Nombre correcto de la función
+                        });
+                        
+
                         li.appendChild(removeLink);
                         songList.appendChild(li);
                     });
                 } else {
-                    // Si no hay canciones, mostrar un mensaje
                     const li = document.createElement('li');
                     li.textContent = 'No hay canciones disponibles';
                     songList.appendChild(li);
@@ -86,6 +101,33 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(error => {
                 console.error("Error al cargar las canciones:", error);
             });
+
+
+            // Función para eliminar una canción de la playlist
+            function deleteSongFromPlaylist(playlistId, songId) {
+                fetch(`http://localhost:8080/playlists/playlist/${playlistId}/song/${songId}/user/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error al eliminar la canción de la playlist.");
+                    }
+                    return response.text();
+                })
+                .then(message => {
+                    alert(message); // Mostrar mensaje de éxito
+                    location.reload(); // Recargar la página para reflejar cambios
+                })
+                .catch(error => {
+                    console.error("Error al eliminar la canción:", error);
+                    alert("No se pudo eliminar la canción.");
+                });
+            }
+
     
             // Agregar el evento para cuando se hace clic en "Agregar Canción"
             document.querySelectorAll('.btn-playlist').forEach(button => {
@@ -112,8 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     })
     .catch(error => {
-        console.error("Error:", error);
-        alert("Hubo un problema al cargar las playlists.");
+        console.error("Error(no hay playlists para mostrar):", error);
+        /* alert("No hay playlists para cargar."); */
     });
     
 

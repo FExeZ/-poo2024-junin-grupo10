@@ -48,14 +48,17 @@ public class PlaylistServiceImp implements PlaylistService {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new RuntimeException("Playlist not found"));
 
-        // Extraer los nombres de las canciones de la playlist
         List<String> songNames = playlist.getSongs().stream()
-                .map(song -> song.getName())
+                .map(Song::getName)
                 .collect(Collectors.toList());
 
-        // Retornar los detalles en un DTO usando el constructor generado por Lombok
-        return new PlaylistDetailDTO(playlist.getName(), songNames);
+        List<Long> songIds = playlist.getSongs().stream()
+                .map(Song::getId)
+                .collect(Collectors.toList());
+
+        return new PlaylistDetailDTO(playlist.getName(), songNames, songIds);
     }
+
 
     @Override
     public void updatePlaylistName(Long playlistId, String newName, Long userId) throws AccessDeniedException {
