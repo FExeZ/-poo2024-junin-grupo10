@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const playlistsContainer = document.getElementById("playlistsContainer");
+    let currentPlaylistId = null; // Definimos currentPlaylistId aquí
 
     // Obtener el token desde localStorage
     const token = localStorage.getItem("token");
@@ -39,31 +40,74 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button class="edit-btn" data-id="${playlist.id}" data-name="${playlist.name}">Editar</button>
                     <button class="delete-btn" data-id="${playlist.id}">Eliminar</button>
                     <h4>Canciones</h4>
-                    <ul>
-                        <li>Canción G <a href="#">Quitar</a></li>
-                        <li>Canción H <a href="#">Quitar</a></li>
+                    <ul id="song-list-${playlist.id}">
+                        <!-- Aquí se agregarán las canciones -->
                     </ul>
-
+    
                     <!-- Modificar los botones de Agregar Canción -->
-                    <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal">Agregar Canción</a>
+                    <a href="#" class="btn btn-playlist" data-bs-toggle="modal" data-bs-target="#addSongModal" data-playlist-id="${playlist.id}">Agregar Canción</a>
                 </div>
             `;
             playlistsContainer.appendChild(playlistElement);
-        });
-
-        // Agregar los eventos de edición
-        document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const playlistId = event.target.getAttribute('data-id');
-                const playlistName = event.target.getAttribute('data-name');
-                openEditModal(playlistId, playlistName);  // Abrir el modal con los datos de la playlist
+    
+            // Obtener las canciones de la playlist
+            fetch(`http://localhost:8080/playlists/playlist/${playlist.id}/details`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Log para verificar qué datos se están recibiendo
+    
+                const songList = document.getElementById(`song-list-${playlist.id}`);
+                songList.innerHTML = ''; // Limpiar la lista de canciones antes de agregar nuevas
+    
+                if (data.songNames && data.songNames.length > 0) {
+                    // Si hay canciones, agregarlas a la lista
+                    data.songNames.forEach(songName => {
+                        const li = document.createElement('li');
+                        li.textContent = songName;
+                        const removeLink = document.createElement('a');
+                        removeLink.href = "#";
+                        removeLink.textContent = 'Quitar';
+                        li.appendChild(removeLink);
+                        songList.appendChild(li);
+                    });
+                } else {
+                    // Si no hay canciones, mostrar un mensaje
+                    const li = document.createElement('li');
+                    li.textContent = 'No hay canciones disponibles';
+                    songList.appendChild(li);
+                }
+            })
+            .catch(error => {
+                console.error("Error al cargar las canciones:", error);
             });
-        });
-
-        // Agregar los eventos de eliminación
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', (event) => {
-                deletePlaylist(event, userId);  // Llamar a la función de eliminación
+    
+            // Agregar el evento para cuando se hace clic en "Agregar Canción"
+            document.querySelectorAll('.btn-playlist').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    currentPlaylistId = event.target.getAttribute('data-playlist-id'); // Guardamos el ID de la playlist
+                });
+            });
+    
+            // Agregar los eventos de edición
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const playlistId = event.target.getAttribute('data-id');
+                    const playlistName = event.target.getAttribute('data-name');
+                    openEditModal(playlistId, playlistName);  // Abrir el modal con los datos de la playlist
+                });
+            });
+    
+            // Agregar los eventos de eliminación
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    deletePlaylist(event, userId);  // Llamar a la función de eliminación
+                });
             });
         });
     })
@@ -71,46 +115,33 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error:", error);
         alert("Hubo un problema al cargar las playlists.");
     });
-
+    
 
     // --------------------------------------------------------------------------------------------- //
 
     function loadSongs() {
-        // Recupera el token de localStorage (ajusta si usas otro lugar)
-        const token = localStorage.getItem('token');  // Asegúrate de que el token esté aquí
-    
-        // Si no hay token, muestra un error y termina la ejecución
-        if (!token) {
-            console.error('No se encontró el token de autorización.');
-            return;
-        }
-    
         const songSelect = document.getElementById("songSelect");
     
-        // Hacemos la solicitud al endpoint para obtener las canciones
         fetch('http://localhost:8080/songs', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`  // Enviamos el token como Bearer
+                'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {
-            // Verificamos si la respuesta es exitosa (200-299)
             if (!response.ok) {
                 throw new Error('No autorizado o error en la solicitud. Status: ' + response.status);
             }
             return response.json();
         })
         .then(data => {
-            // Limpiamos las opciones previas en el select
             songSelect.innerHTML = '';
     
-            // Si la respuesta tiene canciones, las agregamos al select
             if (data && data.length > 0) {
                 data.forEach(song => {
                     const option = document.createElement('option');
-                    option.value = song.id;  // Suponiendo que 'id' es el identificador de la canción
-                    option.textContent = song.name;  // Suponiendo que 'name' es el nombre de la canción
+                    option.value = song.id;
+                    option.textContent = song.name;
                     songSelect.appendChild(option);
                 });
             } else {
@@ -123,13 +154,63 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error al cargar canciones:', error);
         });
     }
-    
-    // Llamamos a la función cuando se abre el modal
+
     document.getElementById('addSongModal').addEventListener('show.bs.modal', loadSongs);
+
+    // --------------------------------------------------------------------------------------------- //
+
+    // Función para agregar canción a la playlist
+    function addSongToPlaylist() {
+        // Verificamos que currentPlaylistId no sea null
+        if (!currentPlaylistId) {
+            console.error('No se ha seleccionado una playlist');
+            alert('Por favor, selecciona una playlist.');
+            return;
+        }
+
+        const songId = document.getElementById('songSelect').value;
+
+        if (!token) {
+            console.error('No se encontró el token de autorización.');
+            return;
+        }
+
+        if (!songId) {
+            console.error('Por favor, selecciona una canción.');
+            return;
+        }
+
+        // Realizamos la solicitud POST para agregar la canción a la playlist
+        fetch(`http://localhost:8080/users/user/${userId}/playlists/${currentPlaylistId}/songs/${songId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al agregar la canción a la playlist.');
+            }
+            return response.text(); // Si la respuesta es exitosa, obtenemos el mensaje
+        })
+        .then(message => {
+            alert(message); // Mostramos el mensaje de éxito
+            $('#addSongModal').modal('hide'); // Ocultamos el modal
+            location.reload();  // Recargamos la página para ver los cambios
+        })
+        .catch(error => {
+            console.error('Error al agregar canción:', error);
+            alert('Hubo un problema al agregar la canción a la playlist.');
+        });
+    }
+
+    // Asignamos la función al botón de agregar canción en el modal
+    document.getElementById('addSongBtn').addEventListener('click', addSongToPlaylist);
 
 
     // --------------------------------------------------------------------------------------------- //
-    
+
     // Función para abrir el modal de edición
     function openEditModal(playlistId, playlistName) {
         const modal = document.getElementById('editModal');
@@ -196,13 +277,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Eliminar el elemento de la interfaz
                 playlistItem.remove();
                 alert('Playlist eliminada correctamente');
-            } else {
+                location.reload(); // Recargar la página después de la eliminación
+            } /* else {  
                 alert('Hubo un error al eliminar la playlist');
-            }
+            } */
         })
         .catch(error => {
             console.error('Error al eliminar la playlist:', error);
             alert('Ocurrió un error inesperado');
         });
     }
+
+
 });
