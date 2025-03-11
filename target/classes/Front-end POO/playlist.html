@@ -238,23 +238,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="js/bootstrap.bundle.min.js" ></script>
-<!-- Script para agregar más canciones -->
-<script>
-  document.getElementById('addMoreSongsBtn').addEventListener('click', function() {
-    const additionalSongsDiv = document.getElementById('additionalSongs');
-    const newSelect = document.createElement('select');
-    newSelect.className = 'form-select mb-2';
-    newSelect.style = 'background-color: #2a314e; color: white; border: none;';
-    newSelect.innerHTML = `
-      <option value="cancion1">Canción 1</option>
-      <option value="cancion2">Canción 2</option>
-      <option value="cancion3">Canción 3</option>
-      <option value="cancion4">Canción 4</option>
-    `;
-    additionalSongsDiv.appendChild(newSelect);
-  });
-</script>
-
 
 </body>
 </html>

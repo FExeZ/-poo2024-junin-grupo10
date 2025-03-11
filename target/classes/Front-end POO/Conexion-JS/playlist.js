@@ -72,6 +72,64 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Hubo un problema al cargar las playlists.");
     });
 
+
+    // --------------------------------------------------------------------------------------------- //
+
+    function loadSongs() {
+        // Recupera el token de localStorage (ajusta si usas otro lugar)
+        const token = localStorage.getItem('token');  // Asegúrate de que el token esté aquí
+    
+        // Si no hay token, muestra un error y termina la ejecución
+        if (!token) {
+            console.error('No se encontró el token de autorización.');
+            return;
+        }
+    
+        const songSelect = document.getElementById("songSelect");
+    
+        // Hacemos la solicitud al endpoint para obtener las canciones
+        fetch('http://localhost:8080/songs', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`  // Enviamos el token como Bearer
+            }
+        })
+        .then(response => {
+            // Verificamos si la respuesta es exitosa (200-299)
+            if (!response.ok) {
+                throw new Error('No autorizado o error en la solicitud. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Limpiamos las opciones previas en el select
+            songSelect.innerHTML = '';
+    
+            // Si la respuesta tiene canciones, las agregamos al select
+            if (data && data.length > 0) {
+                data.forEach(song => {
+                    const option = document.createElement('option');
+                    option.value = song.id;  // Suponiendo que 'id' es el identificador de la canción
+                    option.textContent = song.name;  // Suponiendo que 'name' es el nombre de la canción
+                    songSelect.appendChild(option);
+                });
+            } else {
+                const option = document.createElement('option');
+                option.textContent = 'No hay canciones disponibles';
+                songSelect.appendChild(option);
+            }
+        })
+        .catch(error => {
+            console.error('Error al cargar canciones:', error);
+        });
+    }
+    
+    // Llamamos a la función cuando se abre el modal
+    document.getElementById('addSongModal').addEventListener('show.bs.modal', loadSongs);
+
+
+    // --------------------------------------------------------------------------------------------- //
+    
     // Función para abrir el modal de edición
     function openEditModal(playlistId, playlistName) {
         const modal = document.getElementById('editModal');
