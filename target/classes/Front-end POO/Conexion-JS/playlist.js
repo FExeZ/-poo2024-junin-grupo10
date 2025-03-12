@@ -262,15 +262,15 @@ document.addEventListener("DOMContentLoaded", () => {
         // Llenar el campo con el nombre actual
         playlistNameInput.value = playlistName;
 
-        // Mostrar el modal
-        modal.style.display = "block";
+        // Asegurarse de que el modal no esté visible antes de mostrarlo
+        modal.style.display = "flex";  // Usar 'flex' para asegurar que se centre correctamente
 
         // Manejar el envío del formulario
         editPlaylistForm.onsubmit = async (e) => {
             e.preventDefault(); // Prevenir el envío normal del formulario
-
+        
             const newName = playlistNameInput.value;
-
+        
             // Hacer la petición PUT para actualizar el nombre de la playlist
             const response = await fetch(`http://localhost:8080/playlists/playlist/${playlistId}/user/${userId}`, {
                 method: 'PUT',
@@ -280,21 +280,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: JSON.stringify({ name: newName })
             });
-
+        
             if (!response.ok) {
                 alert("Error al actualizar el nombre de la playlist");
             } else {
                 alert("Nombre de la playlist actualizado");
+                
+                // Actualizar el nombre en la interfaz sin recargar
+                document.querySelector(`[data-id="${playlistId}"]`).closest(".playlist-container").querySelector("h3").textContent = newName;
+                
                 modal.style.display = "none"; // Cerrar el modal
-                location.reload(); // Recargar la página para mostrar los cambios
             }
-        };
+        };        
     }
 
     // Cerrar el modal cuando se hace clic en el botón de cerrar
     document.querySelector('.close-btn').addEventListener('click', () => {
         document.getElementById('editModal').style.display = 'none';
     });
+
+
+
+    // --------------------------------------------------------------------------------------------- //
+    // --------------------------------------------------------------------------------------------- //
+
+
 
     // Función para eliminar una playlist
     function deletePlaylist(event, userId) {

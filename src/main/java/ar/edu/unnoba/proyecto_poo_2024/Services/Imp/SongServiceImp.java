@@ -11,8 +11,10 @@ import ar.edu.unnoba.proyecto_poo_2024.Dto.CreateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Dto.UpdateSongRequestDTO;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
 import ar.edu.unnoba.proyecto_poo_2024.Model.MusicArtistUser;
+import ar.edu.unnoba.proyecto_poo_2024.Model.Playlist;
 import ar.edu.unnoba.proyecto_poo_2024.Model.Song;
 import ar.edu.unnoba.proyecto_poo_2024.Model.User;
+import ar.edu.unnoba.proyecto_poo_2024.Repository.PlaylistRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.SongRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Repository.UserRepository;
 import ar.edu.unnoba.proyecto_poo_2024.Services.SongService;
@@ -25,6 +27,9 @@ public class SongServiceImp implements SongService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PlaylistRepository playlistRepository;
 
     /* @Autowired
     PlaylistRepository playlistRepository; */
@@ -72,10 +77,20 @@ public class SongServiceImp implements SongService {
             throw new IllegalAccessException("No tienes permiso para eliminar esta canción.");
         }
 
-        // Eliminar la canción y sus asociaciones automáticamente (gracias a
-        // CascadeType.REMOVE)
+        // Eliminar la canción de todas las playlists (sin eliminar las playlists)
+        for (Playlist playlist : song.getPlaylists()) {
+            playlist.getSongs().remove(song); // Disociar la canción de la playlist
+        }
+
+        // Guardar las playlists actualizadas
+        for (Playlist playlist : song.getPlaylists()) {
+            playlistRepository.save(playlist);
+        }
+
+        // Eliminar la canción de la base de datos
         songRepository.delete(song);
     }
+
 
     @Override
 public void updateSong(Long userId, Long songId, UpdateSongRequestDTO song) throws Exception {

@@ -1,0 +1,95 @@
+/* Estilo para el fondo del modal específico */
+#editModal.custom-modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo translúcido */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Estilo para el contenido del modal específico */
+#editModal .modal-content1 {
+    background-color: rgb(22, 27, 47); /* Fondo oscuro */
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    color: #fff; /* Texto blanco por defecto */
+}
+
+/* Estilo para el botón de cerrar del modal específico */
+#editModal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #fff; /* Color blanco para el icono */
+    cursor: pointer;
+}
+
+/* Título del modal específico */
+#editModal h2 {
+    margin-top: 0;
+    font-size: 24px;
+    text-align: center;
+    color: #fff; /* Color blanco */
+}
+
+/* Estilo para el formulario del modal específico */
+#editModal #editPlaylistForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Estilo para las etiquetas dentro del modal */
+#editModal label {
+    font-size: 14px;
+    color: #fff; /* Color blanco para las etiquetas */
+    font-weight: bold;
+}
+
+/* Estilo para los campos de entrada dentro del modal */
+#editModal input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333; /* Texto oscuro para el campo de entrada */
+}
+
+/* Estilo para el botón de guardar dentro del modal */
+#editModal button[type="submit"] {
+    background-color: rgb(157, 13, 120); /* Color del botón */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#editModal button[type="submit"]:hover {
+    background-color: rgb(137, 11, 105); /* Color al pasar el mouse */
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 600px) {
+    #editModal .modal-content1 {
+        width: 100%;
+        padding: 15px;
+    }
+
+    #editModal h2 {
+        font-size: 20px;
+    }
+}

@@ -5,7 +5,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import ar.edu.unnoba.proyecto_poo_2024.Model.Enum.Genre;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,7 +44,7 @@ public class Song {
     @JsonBackReference
     private MusicArtistUser musicArtistUser;
 
-    @ManyToMany(mappedBy = "songs", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "songs")
     @JsonBackReference
     private List<Playlist> playlists;
 
