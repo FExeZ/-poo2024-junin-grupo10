@@ -258,13 +258,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const modal = document.getElementById('editModal');
         const playlistNameInput = document.getElementById('newPlaylistName');
         const editPlaylistForm = document.getElementById('editPlaylistForm');
-
+    
         // Llenar el campo con el nombre actual
         playlistNameInput.value = playlistName;
-
+    
         // Asegurarse de que el modal no esté visible antes de mostrarlo
         modal.style.display = "flex";  // Usar 'flex' para asegurar que se centre correctamente
-
+    
         // Manejar el envío del formulario
         editPlaylistForm.onsubmit = async (e) => {
             e.preventDefault(); // Prevenir el envío normal del formulario
@@ -286,10 +286,11 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 alert("Nombre de la playlist actualizado");
                 
-                // Actualizar el nombre en la interfaz sin recargar
-                document.querySelector(`[data-id="${playlistId}"]`).closest(".playlist-container").querySelector("h3").textContent = newName;
-                
-                modal.style.display = "none"; // Cerrar el modal
+                // Cerrar el modal
+                modal.style.display = "none";
+    
+                // Recargar la página para reflejar los cambios
+                window.location.reload();
             }
         };        
     }
